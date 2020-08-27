@@ -4,6 +4,16 @@
 draft=draft
 reads=reads
 
+# Find the complete long read file name
+fastq=$(shell test -f $(reads).fq.gz && echo "true")
+fasta=$(shell test -f $(reads).fa.gz && echo "true")
+ifeq ($(fastq), true)
+long_reads=$(reads).fq.gz
+endif
+ifeq ($(fasta), true)
+long_reads=$(reads).fa.gz
+endif
+
 # Common parameters
 z=1000
 t=8
@@ -88,7 +98,7 @@ tigmint-ntJoin: tigmint ntJoin-with-tigmint
 tigmint-arcs: tigmint arcs-with-tigmint
 tigmint: $(reads).cut$(cut).fa.gz $(draft).cut$(cut).tigmint.fa
 	
-$(draft).cut$(cut).tigmint.fa: $(draft).fa $(reads).f*.gz
+$(draft).cut$(cut).tigmint.fa: $(draft).fa $(long_reads)
 	tigmint-make tigmint-long draft=$(draft) reads=$(reads) span=$(span) cut=$(cut) t=$t
 
 # Run ntJoin-long
@@ -96,26 +106,26 @@ ntJoin-with-tigmint: $(draft).cut$(cut).tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffol
 ntJoin-arcs: ntJoin arcs-with-ntJoin
 ntJoin: $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffolds.fa
 
-%.tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffolds.fa: %.tigmint.fa $(reads).f*.gz
-	ntJoin_long abyss-scaffold target=$< reads="$(word 2,$^)" t=$t k=$k w=$w z=$z
+%.tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffolds.fa: %.tigmint.fa $(long_reads)
+	ntJoin_long abyss-scaffold target=$< reads="$(long_reads)" t=$t k=$k w=$w z=$z
 
-$(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffolds.fa: $(draft).fa $(reads).f*.gz
-	ntJoin_long abyss-scaffold target=$< reads="$(word 2,$^)" t=$t k=$k w=$w z=$z
+$(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffolds.fa: $(draft).fa $(long_reads)
+	ntJoin_long abyss-scaffold target=$< reads="$(long_reads)" t=$t k=$k w=$w z=$z
 
 # Run arcs-long
 arcs-with-ntJoin: $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffolds_c$c_m$m_cut$cut_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 arcs-with-tigmint: $(draft).cut$(cut).tigmint_c$c_m$m_cut$cut_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 arcs-with-tigmint-ntjoin: $(draft).cut$(cut).tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffolds_c$c_m$m_cut$cut_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 
-$(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffolds_c$c_m$m_cut$cut_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffolds.fa $(reads).f*.gz
+$(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffolds_c$c_m$m_cut$cut_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffolds.fa $(long_reads)
 	arcs-make arcs-long draft=$(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffolds reads=$(reads) cut=$(cut) s=$s l=$l c=$c a=$a D=$D z=$z
 
-%.tigmint_c$c_m$m_cut$cut_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: %.tigmint.fa $(reads).f*.gz
+%.tigmint_c$c_m$m_cut$cut_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: %.tigmint.fa $(long_reads)
 	arcs-make arcs-long draft=$(draft).cut$(cut).tigmint reads=$(reads) m=$m cut=$(cut) s=$s l=$l c=$c a=$a D=$D z=$z
 
-%.tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffolds_c$c_m$m_cut$cut_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: %.tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffolds.fa $(reads).f*.gz
+%.tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffolds_c$c_m$m_cut$cut_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: %.tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffolds.fa $(long_reads)
 	arcs-make arcs-long draft=$(draft).cut$(cut).tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffolds reads=$(reads) m=$m cut=$(cut) s=$s l=$l c=$c a=$a D=$D z=$z
 
 # Pre-processing long reads; cut into shorter segments
-$(reads).cut$(cut).fa.gz: $(reads).f*.gz
+$(reads).cut$(cut).fa.gz: $(long_reads)
 	gunzip -c $< | long-to-linked-pe -l$(cut) | $(gzip) > $@
