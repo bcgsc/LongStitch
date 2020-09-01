@@ -28,7 +28,7 @@ reads			read name [reads]. File must have .fq.gz or .fa.gz extension
 
 Tigmint options:
 span			min number of spanning molecules to be considered assembled [auto]
-G				haploid genome size (bp) for calculating span parameter [-1]
+G			haploid genome size (bp) for calculating span parameter [-1]
 
 ntJoin options:
 k			k-mer size for minimizers [24]
