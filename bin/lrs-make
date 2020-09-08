@@ -113,7 +113,7 @@ arcs-with-tigmint: $(draft).cut$(cut).tigmint_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_
 arcs-with-tigmint-ntJoin: $(draft).cut$(cut).tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 
 $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa $(long_reads)
-	arcs-make arcs-long draft=$(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold reads=$(reads) cut=$(cut) s=$s l=$l c=$c a=$a D=$D z=$z
+	arcs-make arcs-long draft=$(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold reads=$(reads) m=$m cut=$(cut) s=$s l=$l c=$c a=$a D=$D z=$z 
 
 %.tigmint_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: %.tigmint.fa $(long_reads)
 	arcs-make arcs-long draft=$(draft).cut$(cut).tigmint reads=$(reads) m=$m cut=$(cut) s=$s l=$l c=$c a=$a D=$D z=$z
