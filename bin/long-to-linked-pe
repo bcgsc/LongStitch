@@ -1,0 +1,120 @@
+#!/usr/bin/env python
+"""
+Cut long reads and assign barcodes to the sub PE reads.
+Usage: gunzip -c reads.f*.gz | python long-to-linked.py -l frag_len -g genome_size -f param_file| gzip > reads.cutlength.fa.gz
+"""
+
+from __future__ import print_function
+import argparse
+import sys
+import numpy as np
+
+if sys.version_info[0] < 3:
+    from string import maketrans
+    complements_trans = maketrans('ACGTacgt','TGCATGCA')
+else:
+    complements_trans = str.maketrans('ACGTacgt','TGCATGCA')
+
+
+def reverse_complement(seq):
+    return seq[::-1].translate(complements_trans)
+
+
+# From https://github.com/lh3/readfq
+def readfq(fp): # this is a generator function
+    last = None # this is a buffer keeping the last unprocessed line
+    while True: # mimic closure; is it a bad idea?
+        if not last: # the first record or a record following a fastq
+            for l in fp: # search for the start of the next record
+                if l[0] in '>@': # fasta/q header line
+                    last = l[:-1] # save this line
+                    break
+        if not last: break
+        name, seqs, last = last[1:].partition(" ")[0], [], None
+        for l in fp: # read the sequence
+            if l[0] in '@+>':
+                last = l[:-1]
+                break
+            seqs.append(l[:-1])
+        if not last or last[0] != '+': # this is a fasta record
+            yield name, ''.join(seqs), None # yield a fasta record
+            if not last: break
+        else: # this is a fastq record
+            seq, leng, seqs = ''.join(seqs), 0, []
+            for l in fp: # read the quality
+                seqs.append(l[:-1])
+                leng += len(l) - 1
+                if leng >= len(seq): # have read enough quality
+                    last = None
+                    yield name, seq, ''.join(seqs); # yield a fastq record
+                    break
+            if last: # reach EOF before reading enough quality
+                yield name, seq, None # yield a fasta record instead
+                break
+
+
+def convert_long_to_linked(in_reads, read_len, genome_size, param_outfile):
+    bx = 0
+    frag_len = 2 * read_len
+    cov_to_span = 0.25  # Optimal tigmint-long span is 1/4 sequence coverage
+    dist_read_perc = 5  # Optimal tigmint-long dist is read length p5
+    total_bases = 0
+    read_lengths = []
+    for name, seq, qual in readfq(in_reads):
+        bx += 1
+        current_id = name.strip() + "_f{} BX:Z:" + str(bx)
+        seq = seq.strip()
+        cur_len = len(seq)
+        total_bases += cur_len
+        read_lengths.append(cur_len)
+        if cur_len < frag_len:
+            continue
+
+        # Split ONT read into fragments of size frag_len
+        read_frags = [seq[i:frag_len + i] for i in range(0, len(seq), frag_len)]
+
+        f = 0
+        for frag in read_frags:
+            f += 1
+            r1 = frag[:read_len]
+            r2 = reverse_complement(frag[-read_len:])
+
+            # Write R1 and R2
+            print(">" + current_id.format(f) + "\n" + r1)            
+            print(">" + current_id.format(f) + "\n" + r2)
+    
+    with open(param_outfile, "w") as of:
+        span = int((total_bases / genome_size) * cov_to_span)
+        dist = int(np.percentile(read_lengths, dist_read_perc))
+        print("span\t{0}".format(span), file=of)
+        print("read_p{0}\t{1}".format(dist_read_perc, dist), file=of)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Split long reads into paired-end pseudo-linked reads.")
+    parser.add_argument("input",
+                        type=argparse.FileType('r'),
+                        default=sys.stdin,
+                        nargs='?',
+                        help="Input long read file to be cut [stdin]")
+    parser.add_argument("-l", "--length",
+                        type=int,
+                        required=True,
+                        help="Read length for reads to be cut to")
+    parser.add_argument("-g", "--genome_size",
+                        type=int,
+                        required=True,
+                        help="Genome size (bp) for calculating tigmint-long span parameter")
+    parser.add_argument("-f", "--param_outfile",
+                        type=str,
+                        default="tigmint-long.params.tsv",
+                        help="Parameter file for calculated long reads to be printed to")
+
+    args = parser.parse_args()
+    in_reads = args.input
+    read_len = args.length
+    convert_long_to_linked(in_reads, read_len, args.genome_size, args.param_outfile)
+
+
+if __name__ == '__main__':
+    main()
