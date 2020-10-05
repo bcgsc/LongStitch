@@ -20,6 +20,7 @@ t=8
 
 # Default Tigmint parameters
 span=auto
+dist=auto
 G=-1
 
 # Default ntJoin parameters
@@ -50,6 +51,9 @@ else
 gzip=gzip
 endif
 endif
+
+# Determine path to LongStitch executables
+bin=$(shell dirname `command -v $(MAKEFILE_LIST)`)
 
 .PHONY: all version help clean tigmint ntJoin tigmint-ntjoin ntJoin-with-tigmint tigmint-arcs arcs-with-tigmint ntJoin-arcs arcs-with-ntJoin tigmint-ntJoin-arcs arcs-with-tigmint-ntJoin
 .DELETE_ON_ERROR:
@@ -94,7 +98,7 @@ tigmint-arcs: tigmint arcs-with-tigmint
 tigmint: $(reads).cut$(cut).fa.gz $(draft).cut$(cut).tigmint.fa
 	
 $(draft).cut$(cut).tigmint.fa: $(draft).fa $(long_reads)
-	tigmint-make tigmint-long draft=$(draft) reads=$(reads) span=$(span) cut=$(cut) t=$t G=$G
+	tigmint-make tigmint-long draft=$(draft) reads=$(reads) cut=$(cut) t=$t G=$G span=$(span) dist=$(dist)
 
 # Run ntJoin-long
 ntJoin-with-tigmint: $(draft).cut$(cut).tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa
@@ -123,4 +127,4 @@ $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l
 
 # Pre-processing long reads; cut into shorter segments
 $(reads).cut$(cut).fa.gz: $(long_reads)
-	gunzip -c $< | long-to-linked-pe -l$(cut) | $(gzip) > $@
+	gunzip -c $< | $(bin)/long-to-linked-pe -l$(cut) -g$(G) -f $(reads).tigmint-long.params.tsv | $(gzip) > $@
