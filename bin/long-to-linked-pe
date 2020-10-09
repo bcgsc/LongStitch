@@ -92,15 +92,13 @@ def convert_long_to_linked(in_reads, read_len, genome_size, param_outfile):
 
 def get_genome_size(size_string):
     """Read genome size from a string, possibly in scientific notation."""
-    if size_string.isnumeric():
-        return int(size_string)
-    elif "e" in size_string and size_string.count("e") == 1:
-        sci_not = [int(i) for i in size_string.split("e")]
-        return sci_not[0] * (10 ** sci_not[1])
-    else:
+    try:
+        g_size = int(float(size_string))
+    except ValueError:
         print("long-to-linked-pe: error: genome size must be given as an integer or in scientific notation (e.g. '3e9')",
             file=sys.stderr)
         sys.exit(1)
+    return g_size
 
 
 def main():
@@ -127,7 +125,7 @@ def main():
     in_reads = args.input
     read_len = args.length
     g_size = get_genome_size(args.genome_size)
-    convert_long_to_linked(in_reads, read_len, gsize, args.param_outfile)
+    convert_long_to_linked(in_reads, read_len, g_size, args.param_outfile)
 
 
 if __name__ == '__main__':
