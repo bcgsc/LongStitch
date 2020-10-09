@@ -27,9 +27,9 @@ draft			draft name [draft]. File must have .fa extension
 reads			read name [reads]. File must have .fq.gz or .fa.gz extension
 
 Tigmint options:
-span				min number of spanning molecules to be considered assembled [auto]
-dist				maximum distance between alignments to be considered the same molecule [auto]
-G					haploid genome size (bp) for calculating span parameter. can be given in scientific notation (e.g. '3e9' for human genome) or as an integer [-1]
+span			min number of spanning molecules to be considered assembled [auto]
+dist			maximum distance between alignments to be considered the same molecule [auto]
+G			haploid genome size (bp) for calculating span parameter. can be given in scientific notation (e.g. '3e9' for human genome) or as an integer [-1]
 
 ntJoin options:
 k			k-mer size for minimizers [24]
