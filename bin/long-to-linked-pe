@@ -53,7 +53,7 @@ def readfq(fp): # this is a generator function
                 break
 
 
-def convert_long_to_linked(in_reads, read_len, genome_size, param_outfile):
+def convert_long_to_linked(in_reads, read_len, genome_size, param_outfile, auto_span, auto_dist):
     bx = 0
     frag_len = 2 * read_len
     cov_to_span = 0.25  # Optimal tigmint-long span is 1/4 sequence coverage
@@ -83,11 +83,14 @@ def convert_long_to_linked(in_reads, read_len, genome_size, param_outfile):
             print(">" + current_id.format(f) + "\n" + r1)            
             print(">" + current_id.format(f) + "\n" + r2)
     
-    with open(param_outfile, "w") as of:
-        span = int((total_bases / genome_size) * cov_to_span)
-        dist = int(np.percentile(read_lengths, dist_read_perc))
-        print("span\t{0}".format(span), file=of)
-        print("read_p{0}\t{1}".format(dist_read_perc, dist), file=of)
+    if auto_dist or auto_span:
+        with open(param_outfile, "w") as of:
+            if auto_span:
+                span = int((total_bases / genome_size) * cov_to_span)
+                print("span\t{0}".format(span), file=of)
+            if auto_dist:
+                dist = int(np.percentile(read_lengths, dist_read_perc))
+                print("read_p{0}\t{1}".format(dist_read_perc, dist), file=of)
 
 
 def get_genome_size(size_string):
@@ -112,6 +115,14 @@ def main():
                         type=int,
                         required=True,
                         help="Read length for reads to be cut to")
+    parser.add_argument("-s", "--auto_span",
+                        action="store_true",
+                        default=False,
+                        help="Calculate span parameter for tigmint-long automatically")
+    parser.add_argument("-d", "--auto_dist",
+                        action="store_true",
+                        default=False,
+                        help="Calculate dist parameter for tigmint-long automatically")
     parser.add_argument("-g", "--genome_size",
                         type=str,
                         required=True,
@@ -125,7 +136,8 @@ def main():
     in_reads = args.input
     read_len = args.length
     g_size = get_genome_size(args.genome_size)
-    convert_long_to_linked(in_reads, read_len, g_size, args.param_outfile)
+    convert_long_to_linked(in_reads, read_len, g_size, args.param_outfile,
+                args.auto_span, args.auto_dist)
 
 
 if __name__ == '__main__':
