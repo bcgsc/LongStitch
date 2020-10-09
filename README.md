@@ -1,4 +1,4 @@
-# Long-read scaffolding pipeline
+# LongStitch
 A long-read scaffolding pipeline that consists of three stages:
 * [Tigmint](https://github.com/bcgsc/tigmint) cuts the draft assembly at potentially misassembled regions
 * [ntJoin](https://github.com/bcgsc/ntJoin) is then used to scaffold the corrected assembly
@@ -12,7 +12,7 @@ A long-read scaffolding pipeline that consists of three stages:
 * LINKS
 
 ### Usage
-To run the long-read scaffolding pipeline, you can use the Makefile driver script `lrs-make`.
+To run the LongStitch pipeline, you can use the Makefile driver script `lrs-make`.
 ```
 Usage: ./lrs-make [COMMAND] [OPTION=VALUE]…
 
@@ -29,7 +29,7 @@ reads				read name [reads]. File must have .fq.gz or .fa.gz extension
 Tigmint options:
 span				min number of spanning molecules to be considered assembled [auto]
 dist				maximum distance between alignments to be considered the same molecule [auto]
-G					haploid genome size (bp) for calculating span parameter [-1]
+G					haploid genome size (bp) for calculating span parameter. can be given in scientific notation (e.g. '3e9' for human genome) or as an integer [-1]
 
 ntJoin options:
 k					k-mer size for minimizers [24]
