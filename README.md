@@ -19,12 +19,12 @@ Usage: ./lrs-make [COMMAND] [OPTION=VALUE]…
 Commands:
 tigmint-ntJoin		run Tigmint, then run ntJoin with the output of Tigmint
 tigmint-arcs		run Tigmint, then run ARCS with the output of Tigmint
-ntJoin-arcs			run ntJoin, then run ARCS with the output of ntJoin
+ntJoin-arcs		run ntJoin, then run ARCS with the output of ntJoin
 tigmint-ntJoin-arcs	run Tigmint, ntJoin, then ARCS
 
 General options:
-draft				draft name [draft]. File must have .fa extension
-reads				read name [reads]. File must have .fq.gz or .fa.gz extension
+draft			draft name [draft]. File must have .fa extension
+reads			read name [reads]. File must have .fq.gz or .fa.gz extension
 
 Tigmint options:
 span				min number of spanning molecules to be considered assembled [auto]
@@ -32,14 +32,14 @@ dist				maximum distance between alignments to be considered the same molecule [
 G					haploid genome size (bp) for calculating span parameter. can be given in scientific notation (e.g. '3e9' for human genome) or as an integer [-1]
 
 ntJoin options:
-k					k-mer size for minimizers [24]
-w					window size for minimizers (bp) [250]
+k			k-mer size for minimizers [24]
+w			window size for minimizers (bp) [250]
 
 ARCS+LINKS options:
-s					minimum sequence identity [70]
-c					minimum aligned read pairs per molecule [4]
-l					minimum number of links to compute scaffold [4]
-a					maximum link ratio between two best contain pairs [0.3]
+s			minimum sequence identity [70]
+c			minimum aligned read pairs per molecule [4]
+l			minimum number of links to compute scaffold [4]
+a			maximum link ratio between two best contain pairs [0.3]
 
 Notes:
 	- by default, span is automatically calculated as 1/4 of the sequence coverage of the input long reads
