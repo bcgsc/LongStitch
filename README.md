@@ -46,7 +46,7 @@ Notes:
 	- by default, dist is automatically calculated as p5 of the input long read lengths
 ```
 
-For example, to run the entire pipeline on a draft assembly `draft-assembly.fa` with the reads `reads.fa.gz` and a genome size of gsize:
+For example, to run the entire pipeline on a draft assembly `draft-assembly.fa` with the reads `reads.fa.gz` and a genome size of `gsize`:
 ```
 longstitch all draft=draft-assembly reads=reads G=gsize
 ```
