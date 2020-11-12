@@ -23,7 +23,7 @@ span=auto
 dist=auto
 G=-1
 
-# Default ntJoin parameters
+# Default ntLink parameters
 k=24
 w=250
 
@@ -55,66 +55,72 @@ endif
 # Determine path to LongStitch executables
 bin=$(shell dirname `command -v $(MAKEFILE_LIST)`)
 
-.PHONY: all version help clean tigmint ntJoin tigmint-ntjoin ntJoin-with-tigmint tigmint-arcs arcs-with-tigmint ntJoin-arcs arcs-with-ntJoin tigmint-ntJoin-arcs arcs-with-tigmint-ntJoin
+.PHONY: help all version clean tigmint ntLink tigmint-ntLink ntLink-with-tigmint tigmint-arcs arcs-with-tigmint ntLink-arcs arcs-with-ntLink tigmint-ntLink-arcs arcs-with-tigmint-ntLink
 .DELETE_ON_ERROR:
 .SECONDARY:
 
-all: help
 # Help
 help:
-	@echo "Usage: ./lrs-make [COMMAND] [OPTION=VALUE]…"
+	@echo "Usage: ./longstitch [COMMAND] [OPTION=VALUE]…"
 	@echo "	Commands:"
 	@echo ""
-	@echo "	tigmint-ntJoin		run Tigmint, then run ntJoin with the output of Tigmint"
+	@echo "	all     		run full LongStitch pipeline: Tigmint, ntLink, then ARCS"
+	@echo "	tigmint-ntLink		run Tigmint, then run ntLink with the output of Tigmint"
 	@echo "	tigmint-arcs		run Tigmint, then run ARCS with the output of Tigmint"
-	@echo "	ntJoin-arcs		run ntJoin, then run ARCS with the output of ntJoin"
-	@echo "	tigmint-ntJoin-arcs	run Tigmint, ntJoin, then ARCS"
+	@echo "	ntLink-arcs		run ntLink, then run ARCS with the output of ntLink"
 	@echo ""
 	@echo "	General options:"
 	@echo "	draft			draft name [draft]. File must have .fa extension"
 	@echo "	reads			read name [reads]. File must have .fq.gz or .fa.gz extension"
 	@echo ""
 	@echo "	Tigmint options:"
-	@echo "	span			min number of spanning molecules to be considered assembled [auto]"
+	@echo "	span			min number of spanning molecules to be considered correctly assembled [auto]"
+	@echo "	dist			maximum distance between alignments to be considered the same molecule [auto]"
+	@echo "	G			haploid genome size (bp) for calculating span parameter. (e.g. '3e9' for human genome) [-1]"
 	@echo ""
-	@echo "	ntJoin options:"
+	@echo "	ntLink options:"
 	@echo "	k			k-mer size for minimizers [24]"
-	@echo "	w			window size for minimizers (bp) [250]"
+	@echo "	w			window size for minimizers [250]"
 	@echo ""
 	@echo "	ARCS+LINKS options:"
 	@echo "	s			minimum sequence identity [70]"
 	@echo "	c			minimum aligned read pairs per molecule [4]"	
 	@echo "	l			minimum number of links to compute scaffold [4]"
 	@echo "	a			maximum link ratio between two best contain pairs [0.3]"
+	@echo ""
+	@echo "Notes:"
+	@echo "	- by default, span is automatically calculated as 1/4 of the sequence coverage of the input long reads"
+	@echo "	- by default, dist is automatically calculated as p5 of the input long read lengths"
 
 clean:
 	rm -f *.amb *.ann *.bwt *.pac *.sa *.dist.gv *.fai *.bed *.molecule.tsv *.sortbx.bai *.k$(k).w$(w).tsv *.k$(k).w$(w).tsv
 	@echo "Clean Done" 
 
 # Run tigmint-long
-tigmint-ntJoin-arcs: tigmint-ntJoin arcs-with-tigmint-ntJoin
-tigmint-ntJoin: tigmint ntJoin-with-tigmint
+all: tigmint-ntLink-arcs
+tigmint-ntLink-arcs: tigmint-ntLink arcs-with-tigmint-ntLink
+tigmint-ntLink: tigmint ntLink-with-tigmint
 tigmint-arcs: tigmint arcs-with-tigmint
 tigmint: $(reads).cut$(cut).fa.gz $(draft).cut$(cut).tigmint.fa
 	
 $(draft).cut$(cut).tigmint.fa: $(draft).fa $(long_reads)
 	tigmint-make tigmint-long draft=$(draft) reads=$(reads) cut=$(cut) t=$t G=$G span=$(span) dist=$(dist)
 
-# Run ntJoin-long
-ntJoin-with-tigmint: $(draft).cut$(cut).tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa
-ntJoin-arcs: ntJoin arcs-with-ntJoin
-ntJoin: $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa
+# Run ntLink-long
+ntLink-with-tigmint: $(draft).cut$(cut).tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa
+ntLink-arcs: ntLink arcs-with-ntLink
+ntLink: $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa
 
 %.tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa: %.tigmint.fa $(long_reads)
-	ntJoin_long abyss_scaffold target=$< reads="$(long_reads)" t=$t k=$k w=$w z=$z n=$n
+	ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$k w=$w z=$z n=$n v=1
 
 $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa: $(draft).fa $(long_reads)
-	ntJoin_long abyss_scaffold target=$< reads="$(long_reads)" t=$t k=$k w=$w z=$z n=$n
+	ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$k w=$w z=$z n=$n v=1
 
 # Run arcs-long
-arcs-with-ntJoin: $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+arcs-with-ntLink: $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 arcs-with-tigmint: $(draft).cut$(cut).tigmint_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
-arcs-with-tigmint-ntJoin: $(draft).cut$(cut).tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+arcs-with-tigmint-ntLink: $(draft).cut$(cut).tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 
 $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa $(long_reads)
 	arcs-make arcs-long draft=$(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold reads=$(reads) m=$m cut=$(cut) s=$s l=$l c=$c a=$a D=$D z=$z
