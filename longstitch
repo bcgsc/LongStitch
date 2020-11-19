@@ -24,8 +24,8 @@ dist=auto
 G=-1
 
 # Default ntLink parameters
-k=24
-w=250
+k=32
+w=100
 
 # Default ARCS+LINKS parameters
 s=70
