@@ -24,11 +24,13 @@ dist=auto
 G=-1
 
 # Default ntLink parameters
-k=32
+k_ntLink=32
 w=100
 
-# Default ARCS+LINKS parameters
+# Default ARCS/ARKS+LINKS parameters
 s=70
+j=0.05
+k_arks=20
 c=4
 l=4
 a=0.3
@@ -55,7 +57,7 @@ endif
 # Determine path to LongStitch executables
 bin=$(shell dirname `command -v $(MAKEFILE_LIST)`)
 
-.PHONY: help all version clean tigmint ntLink tigmint-ntLink ntLink-with-tigmint tigmint-arcs arcs-with-tigmint ntLink-arcs arcs-with-ntLink tigmint-ntLink-arcs arcs-with-tigmint-ntLink
+.PHONY: help all version clean tigmint ntLink tigmint-ntLink ntLink-with-tigmint tigmint-arcs tigmint-arks arcs-with-tigmint arks-with-tigmint ntLink-arcs ntLink-arks arcs-with-ntLink arks-with-ntLink tigmint-ntLink-arcs tigmint-ntLink-arks arcs-with-tigmint-ntLink arks-with-tigmint-ntLink
 .DELETE_ON_ERROR:
 .SECONDARY:
 
@@ -65,9 +67,12 @@ help:
 	@echo "	Commands:"
 	@echo ""
 	@echo "	all     		run full LongStitch pipeline: Tigmint, ntLink, then ARCS"
+	@echo "	tigmint-ntLink-arks	run full LongStitch pipeline: Tigmint, ntLink, then ARKS"
 	@echo "	tigmint-ntLink		run Tigmint, then run ntLink with the output of Tigmint"
-	@echo "	tigmint-arcs		run Tigmint, then run ARCS with the output of Tigmint"
-	@echo "	ntLink-arcs		run ntLink, then run ARCS with the output of ntLink"
+	@echo "	tigmint-arcs		run Tigmint, then run ARCS in default mode with the output of Tigmint"
+	@echo "	tigmint-arks		run Tigmint, then run ARCS in kmer mode with the output of Tigmint"
+	@echo "	ntLink-arcs		run ntLink, then run ARCS in default mode with the output of ntLink"
+	@echo "	ntLink-arks		run ntLink, then run ARCS in kmer mode with the output of ntLink"
 	@echo ""
 	@echo "	General options:"
 	@echo "	draft			draft name [draft]. File must have .fa extension"
@@ -79,11 +84,13 @@ help:
 	@echo "	G			haploid genome size (bp) for calculating span parameter. (e.g. '3e9' for human genome) [-1]"
 	@echo ""
 	@echo "	ntLink options:"
-	@echo "	k			k-mer size for minimizers [24]"
-	@echo "	w			window size for minimizers [250]"
+	@echo "	k_ntLink		k-mer size for minimizers [32]"
+	@echo "	w			window size for minimizers [100]"
 	@echo ""
 	@echo "	ARCS+LINKS options:"
-	@echo "	s			minimum sequence identity [70]"
+	@echo "	s			minimum sequence identity (used in default mode) [70]"
+	@echo "	j			minimum fraction of read kmers matching a contigId (used in kmer mode) [0.05]"
+	@echo "	k_arks			size of a k-mer (used in kmer mode) [20]"
 	@echo "	c			minimum aligned read pairs per molecule [4]"	
 	@echo "	l			minimum number of links to compute scaffold [4]"
 	@echo "	a			maximum link ratio between two best contain pairs [0.3]"
@@ -99,9 +106,11 @@ clean:
 # Run tigmint-long
 all: tigmint-ntLink-arcs
 tigmint-ntLink-arcs: tigmint-ntLink arcs-with-tigmint-ntLink
+tigmint-ntLink-arks: tigmint-ntLink arks-with-tigmint-ntLink
 tigmint-ntLink: tigmint ntLink-with-tigmint
 tigmint-arcs: tigmint arcs-with-tigmint
-tigmint: $(reads).cut$(cut).fa.gz $(draft).cut$(cut).tigmint.fa
+tigmint-arks: tigmint arks-with-tigmint
+tigmint: $(reads).cut$(cut).fq.gz $(draft).cut$(cut).tigmint.fa
 	
 $(draft).cut$(cut).tigmint.fa: $(draft).fa $(long_reads)
 	tigmint-make tigmint-long draft=$(draft) reads=$(reads) cut=$(cut) t=$t G=$G span=$(span) dist=$(dist)
@@ -109,13 +118,14 @@ $(draft).cut$(cut).tigmint.fa: $(draft).fa $(long_reads)
 # Run ntLink-long
 ntLink-with-tigmint: $(draft).cut$(cut).tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa
 ntLink-arcs: ntLink arcs-with-ntLink
+ntLink-arks: ntLink arks-with-ntLink
 ntLink: $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa
 
 %.tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa: %.tigmint.fa $(long_reads)
-	ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$k w=$w z=$z n=$n v=1
+	ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n v=1
 
 $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa: $(draft).fa $(long_reads)
-	ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$k w=$w z=$z n=$n v=1
+	ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n v=1
 
 # Run arcs-long
 arcs-with-ntLink: $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
@@ -131,22 +141,36 @@ $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l
 %.tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: %.tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa $(long_reads)
 	arcs-make arcs-long draft=$(draft).cut$(cut).tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold reads=$(reads) m=$m cut=$(cut) s=$s l=$l c=$c a=$a D=$D z=$z
 
+# Run with arks-long
+arks-with-ntLink: $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_k$k_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+arks-with-tigmint: $(draft).cut$(cut).tigmint_c$c_m$m_cut$(cut)_k$k_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+arks-with-tigmint-ntLink: $(draft).cut$(cut).tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_k$k_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+
+$(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_k$k_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: $(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa $(long_reads)
+	arcs-make arks-long draft=$(draft).fa.k$k.w$w.n$n.z$z.abyss-scaffold reads=$(reads) m=$m cut=$(cut) j=$j k=$(k_arks) l=$l c=$c a=$a D=$D z=$z
+
+%.tigmint_c$c_m$m_cut$(cut)_k$k_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: %.tigmint.fa $(long_reads)
+	arcs-make arks-long draft=$(draft).cut$(cut).tigmint reads=$(reads) m=$m cut=$(cut) j=$j k=$(k_arks) l=$l c=$c a=$a D=$D z=$z
+
+%.tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold_c$c_m$m_cut$(cut)_k$k_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: %.tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold.fa $(long_reads)
+	arcs-make arks-long draft=$(draft).cut$(cut).tigmint.fa.k$k.w$w.n$n.z$z.abyss-scaffold reads=$(reads) m=$m cut=$(cut) j=$j k=$(k_arks) l=$l c=$c a=$a D=$D z=$z
+
 # Pre-processing long reads; cut into shorter segments and optionally calculate tigmint-long dist and span parameters
-$(reads).cut$(cut).fa.gz: $(long_reads)
+$(reads).cut$(cut).fq.gz: $(long_reads)
 ifeq ($(span), auto)
 ifneq ($G, -1)
 ifeq ($(dist), auto)
-	gunzip -c $< | $(bin)/long-to-linked-pe -l$(cut) -g$G -s -d -f $(reads).tigmint-long.params.tsv | $(gzip) > $@
+	gunzip -c $< | $(bin)/bin/long-to-linked-pe -l$(cut) -g$G -s -d -f $(reads).tigmint-long.params.tsv --fastq | $(gzip) > $@
 else
-	gunzip -c $< | $(bin)/long-to-linked-pe -l$(cut) -g$G -s -f $(reads).tigmint-long.params.tsv | $(gzip) > $@
+	gunzip -c $< | $(bin)/bin/long-to-linked-pe -l$(cut) -g$G -s -f $(reads).tigmint-long.params.tsv --fastq | $(gzip) > $@
 endif
 else
 	$(error ERROR: genome size (G) must be provided to calculate span parameter in long-to-linked-pe)
 endif
 else
 ifeq ($(dist), auto)
-	gunzip -c $< | $(bin)/long-to-linked-pe -l$(cut) -g$G -d -f $(reads).tigmint-long.params.tsv | $(gzip) > $@
+	gunzip -c $< | $(bin)/bin/long-to-linked-pe -l$(cut) -g$G -d -f $(reads).tigmint-long.params.tsv --fastq | $(gzip) > $@
 else
-	gunzip -c $< | $(bin)/long-to-linked-pe -l$(cut) -g$G --f $(reads).tigmint-long.params.tsv | $(gzip) > $@
+	gunzip -c $< | $(bin)/bin/long-to-linked-pe -l$(cut) -g$G --f $(reads).tigmint-long.params.tsv --fastq | $(gzip) > $@
 endif
 endif
