@@ -67,7 +67,7 @@ help:
 	@echo "	Commands:"
 	@echo ""
 	@echo "	all     		run full LongStitch pipeline: Tigmint, ntLink, then ARCS"
-	@echo "	tigmint-ntLink-arks	run full LongStitch pipeline: Tigmint, ntLink, then ARKS"
+	@echo "	tigmint-ntLink-arks	run full LongStitch pipeline: Tigmint, ntLink, then ARCS in kmer mode"
 	@echo "	tigmint-ntLink		run Tigmint, then run ntLink with the output of Tigmint"
 	@echo "	tigmint-arcs		run Tigmint, then run ARCS in default mode with the output of Tigmint"
 	@echo "	tigmint-arks		run Tigmint, then run ARCS in kmer mode with the output of Tigmint"
