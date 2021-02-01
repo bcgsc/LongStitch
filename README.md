@@ -25,9 +25,13 @@ tigmint-arks		run Tigmint, then run ARCS in kmer mode with the output of Tigmint
 ntLink-arcs		run ntLink, then run ARCS in default mode with the output of ntLink
 ntLink-arks		run ntLink, then run ARCS in kmer mode with the output of ntLink
 
-General options:
+General options (required):
 draft			draft name [draft]. File must have .fa extension
 reads			read name [reads]. File must have .fq.gz or .fa.gz extension
+
+General options (optional):
+t			number of threads [8]
+z			minimum size of contig (bp) to scaffold [1000]
 
 Tigmint options:
 span			min number of spanning molecules to be considered correctly assembled [auto]
