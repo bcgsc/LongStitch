@@ -18,25 +18,30 @@ Usage: ./longstitch [COMMAND] [OPTION=VALUE]…
 
 Commands:
 all     		run full LongStitch pipeline: Tigmint, ntLink, then ARCS
-tigmint-ntJoin		run Tigmint, then run ntJoin with the output of Tigmint
-tigmint-arcs		run Tigmint, then run ARCS with the output of Tigmint
-ntJoin-arcs		run ntJoin, then run ARCS with the output of ntJoin
+tigmint-ntLink-arks	run full LongStitch pipeline: Tigmint, ntLink, then ARKS
+tigmint-ntLink		run Tigmint, then run ntLink with the output of Tigmint
+tigmint-arcs		run Tigmint, then run ARCS in default mode with the output of Tigmint
+tigmint-arks		run Tigmint, then run ARCS in kmer mode with the output of Tigmint
+ntLink-arcs		run ntLink, then run ARCS in default mode with the output of ntLink
+ntLink-arks		run ntLink, then run ARCS in kmer mode with the output of ntLink
 
 General options:
 draft			draft name [draft]. File must have .fa extension
 reads			read name [reads]. File must have .fq.gz or .fa.gz extension
 
 Tigmint options:
-span			min number of spanning molecules to be considered assembled [auto]
+span			min number of spanning molecules to be considered correctly assembled [auto]
 dist			maximum distance between alignments to be considered the same molecule [auto]
-G			haploid genome size (bp) for calculating span parameter.(e.g. '3e9' for human genome) [-1]
+G			haploid genome size (bp) for calculating span parameter. (e.g. '3e9' for human genome) [-1]
 
-ntJoin options:
-k			k-mer size for minimizers [24]
-w			window size for minimizers [250]
+ntLink options:
+k_ntLink		k-mer size for minimizers [32]
+w			window size for minimizers [100]
 
 ARCS+LINKS options:
-s			minimum sequence identity [70]
+s			minimum sequence identity (used in default mode) [70]
+j			minimum fraction of read kmers matching a contigId (used in kmer mode) [0.05]
+k_arks			size of a k-mer (used in kmer mode) [20]
 c			minimum aligned read pairs per molecule [4]
 l			minimum number of links to compute scaffold [4]
 a			maximum link ratio between two best contain pairs [0.3]
