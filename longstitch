@@ -148,7 +148,11 @@ arcs-with-tigmint-ntLink: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.sti
 # Run with arks-long
 arks-with-ntLink: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 arks-with-tigmint: $(draft).cut$(cut).tigmint_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
-arks-with-tigmint-ntLink: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+arks-with-tigmint-ntLink: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa \
+			$(draft).longstitch.fa
+
+$(draft).longstitch.fa: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+	ln -s $< $@
 
 %.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: %.stitch.abyss-scaffold.fa $(long_reads)
 	arcs-make arks-long draft=$*.stitch.abyss-scaffold reads=$(reads) m=$m cut=$(cut) j=$j k=$(k_arks) l=$l c=$c a=$a D=$D z=$z
