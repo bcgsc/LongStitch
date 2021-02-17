@@ -44,6 +44,10 @@ r=0.05
 e=30000
 D=true
 
+# Reference for QUAST run
+ref=None
+quast_t=48
+
 # Use pigz or bgzip for parallel compression if available.
 ifneq ($(shell command -v pigz),)
 gzip=pigz -p$t
@@ -70,7 +74,10 @@ endif
 # Determine path to LongStitch executables
 bin=$(shell dirname `command -v $(MAKEFILE_LIST)`)
 
-.PHONY: help all version clean tigmint ntLink tigmint-ntLink ntLink-with-tigmint tigmint-arcs tigmint-arks arcs-with-tigmint arks-with-tigmint ntLink-arcs ntLink-arks arcs-with-ntLink arks-with-ntLink tigmint-ntLink-arcs tigmint-ntLink-arks arcs-with-tigmint-ntLink arks-with-tigmint-ntLink
+.PHONY: help all version clean tigmint ntLink tigmint-ntLink ntLink-with-tigmint tigmint-arcs tigmint-arks \
+		arcs-with-tigmint arks-with-tigmint ntLink-arcs ntLink-arks arcs-with-ntLink arks-with-ntLink \
+		tigmint-ntLink-arcs tigmint-ntLink-arks arcs-with-tigmint-ntLink arks-with-tigmint-ntLink \
+		check_ref longstitch_quast
 .DELETE_ON_ERROR:
 .SECONDARY:
 
@@ -195,3 +202,19 @@ else
 	$(longstitch_time) sh -c 'gunzip -c $< | $(bin)/bin/long-to-linked-pe -l$(cut) -g$G --f $(reads).tigmint-long.params.tsv --fastq | $(gzip) > $@'
 endif
 endif
+
+longstitch_quast: arks-with-tigmint-ntLink check_ref \
+			quast_longstitch-z$z_ntLink-k$(k_ntLink)-w$w_arks-long
+
+check_ref:
+ifeq ($(ref), None)
+	$(error ERROR: Must set reference for longstitch_quast target)
+endif
+
+quast_longstitch-z$z_ntLink-k$(k_ntLink)-w$w_arks-long: arks-with-tigmint-ntLink
+	quast -t $(quast_t) -o $@ -r $(ref) --fast --scaffold-gap-max-size 100000  --large \
+        $(draft).fa  \
+        $(draft).cut$(cut).tigmint.fa \
+        $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa \
+        $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+        
