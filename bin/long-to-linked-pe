@@ -57,7 +57,8 @@ def convert_long_to_linked(in_reads, read_len, genome_size, param_outfile, auto_
     bx = 0
     frag_len = 2 * read_len
     cov_to_span = 0.25  # Optimal tigmint-long span is 1/4 sequence coverage
-    dist_read_perc = 5  # Optimal tigmint-long dist is read length p5
+    dist_read_perc = 50  # Optimal tigmint-long dist is read length p50
+    dist_lower_bound = 1000 # Lower bound for dist
     total_bases = 0
     read_lengths = []
     for name, seq, qual in readfq(in_reads):
@@ -66,7 +67,8 @@ def convert_long_to_linked(in_reads, read_len, genome_size, param_outfile, auto_
         seq = seq.strip()
         cur_len = len(seq)
         total_bases += cur_len
-        read_lengths.append(cur_len)
+        if cur_len >= dist_lower_bound:
+            read_lengths.append(cur_len)
         if cur_len < frag_len:
             continue
 
