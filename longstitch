@@ -203,8 +203,13 @@ else
 endif
 endif
 
+# QUAST targets
+
 longstitch_quast: arks-with-tigmint-ntLink check_ref \
 			quast_longstitch-z$z_ntLink-k$(k_ntLink)-w$w_arks-long
+
+ntLink_quast: ntLink check_ref \
+            quast_ntLink-z$z_ntLink-k$(k_ntLink)-w$w
 
 check_ref:
 ifeq ($(ref), None)
@@ -217,4 +222,8 @@ quast_longstitch-z$z_ntLink-k$(k_ntLink)-w$w_arks-long: arks-with-tigmint-ntLink
         $(draft).cut$(cut).tigmint.fa \
         $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa \
         $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
-        
+
+quast_ntLink-z$z_ntLink-k$(k_ntLink)-w$w: ntLink
+    quast -t $(quast_t) -o $@ -r $(ref) --fast --scaffold-gap-max-size 100000  --large \
+        $(draft).fa  \
+        $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa
