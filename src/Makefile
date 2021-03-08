@@ -1,9 +1,9 @@
 CXXFLAGS=-O3 -Wall -Werror -Wno-unknown-pragmas -std=c++11 -pthread -Ibtllib/include -Iinclude
 
-all: pseudolr
+all: long-to-linked-pe
 
 clean:
-	rm -f psuedolr
+	rm -f long-to-linked-pe
 
 # Check the C++ source code for errors.
 lint: clang-format clang-tidy

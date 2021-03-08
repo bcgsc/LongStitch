@@ -20,7 +20,7 @@
 #include <string>
 #include <vector>
 
-const static std::string PROGNAME = "pseudolr";
+const static std::string PROGNAME = "long-to-linked-pe";
 const static std::string VERSION = "v1.0";
 
 static void
@@ -32,21 +32,21 @@ print_error_msg(const std::string& msg)
 static void
 print_usage()
 {
-	std::cerr << "Usage: " << PROGNAME
-	          << " -l L -g G [--fast -s -d -p P -c C] FILE"
-	             "[-o FILE] FILE...\n\n"
+	std::cerr << "Usage: Split long reads into paired-end pseudo-linked reads." << PROGNAME
+	          << " -l L -g G [--fasta -s -d -p P -c C -f FILE] READS \n\n"
 	             "  -l L        Use L as simulated read length size.\n"
-	             "  -g G        Use G as genome size for span estimation.\n"
+	             "  -g G        Use G as Genome size (bp) for calculating tigmint-long span "
+	             "parameter as an integer or in scientific notation (e.g. '3e9').\n"
 	             "  --fasta     Output in fasta format.\n"
-	             "  -f FILE     Write estimated parameter to FILE, default is config.\n"
-	             "  -s          Output estimate span parameter.\n"
-	             "  -c C        Use C coverage to estimate span parameter. Default is 0.25.\n"
-	             "  -d          Output estimate dist parameter.\n"
-	             "  -p P        Use P percentile to estimate dist parameter. Default is 50.\n"
+	             "  -f FILE     Write estimated parameter to FILE. [tigmint-long.params.tsv]\n"
+	             "  -s          Calculate span parameter for tigmint-long automatically.\n"
+	             "  -c C        Use 'C * sequence coverage' to estimate span parameter. [0.25]\n"
+	             "  -d          Calculate dist parameter for tigmint-long automatically.\n"
+	             "  -p P        Use P percentile to estimate dist parameter. [50].\n"
 	             "  -v          Show verbose output.\n"
 	             "  --help      Display this help and exit.\n"
 	             "  --version   Display version and exit.\n"
-	             "  FILE        Space separated list of FASTA/Q files."
+	             "  READS       Space separated list of long reads FASTA/Q files to be cut."
 	          << std::endl;
 }
 
@@ -66,8 +66,7 @@ main(int argc, char* argv[])
 	std::vector<size_t> read_lengths;
 	size_t total_bases = 0;
 	int with_fasta = 0;
-	std::string outfile("-");
-	std::string configFile("config");
+	std::string configFile("tigmint-long.params.tsv");
 	bool failed = false;
 	static const struct option longopts[] = { { "fasta", no_argument, &with_fasta, 1 },
 		                                      { "help", no_argument, &help, 1 },
@@ -83,16 +82,13 @@ main(int argc, char* argv[])
 			break;
 		case 'g':
 			g_set = true;
-			g = std::stoul(optarg);
+			g = std::stod(optarg);
 			break;
 		case 'p':
 			dist_read_perc = std::stod(optarg);
 			break;
 		case 'c':
 			cov_to_span = std::stod(optarg);
-			break;
-		case 'o':
-			outfile = optarg;
 			break;
 		case 'f':
 			configFile = optarg;
