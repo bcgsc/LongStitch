@@ -1,19 +1,23 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# See https://docs.microsoft.com/azure/devops/pipelines/languages/python
 
-trigger:
-- master
-
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+jobs:
+- job: Test
+  pool:
+    vmImage: Ubuntu 16.04
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: "3.7"
+      architecture: x64
+  - script: |
+      curl https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+      sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-11 main"
+      sudo apt-get update
+      sudo apt-get install -y --no-install-recommends clang-format-11 clang-tidy-11
+      sudo ln -s clang-format-11 /usr/bin/clang-format
+      sudo ln -s clang-tidy-11 /usr/bin/clang-tidy
+    displayName: Install clang-format and clang-tidy
+  - script: make -C src all
+    displayName: Compile C++ executables
+  - script: make -C src lint
+    displayName: Run clang-format and clang-tidy
