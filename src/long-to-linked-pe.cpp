@@ -58,7 +58,7 @@ main(int argc, char* argv[])
 	int optindex = 0;
 	int help = 0, version = 0;
 	bool auto_span = false, auto_dist = false;
-	size_t l = 0, g = 0, t = 1;
+	size_t l = 0, g = 0, t = 6;
 	bool g_set = false;
 	bool l_set = false;
 	double cov_to_span = 0.25;      // Optimal tigmint-long span is 1/4 sequence coverage
