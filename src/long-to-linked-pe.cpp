@@ -22,6 +22,7 @@
 
 const static std::string PROGNAME = "long-to-linked-pe";
 const static std::string VERSION = "v1.0";
+const static size_t MAX_THREADS = 6;
 
 static void
 print_error_msg(const std::string& msg)
@@ -33,16 +34,16 @@ static void
 print_usage()
 {
 	std::cerr << "Usage: Split long reads into paired-end pseudo-linked reads." << PROGNAME
-	          << " -l L -g G [--fasta -s -d -p P -c C -f FILE] READS \n\n"
+	          << " -l L -g G [--fasta -s -d -p P -c C -t T -f FILE] READS \n\n"
 	             "  -l L        Use L as simulated read length size.\n"
-	             "  -g G        Use G as Genome size (bp) for calculating tigmint-long span "
-	             "parameter as an integer or in scientific notation (e.g. '3e9').\n"
+	             "  -g G        Use G as Genome size (bp) for calculating tigmint-long span parameter as an integer or in scientific notation (e.g. '3e9').\n"
 	             "  --fasta     Output in fasta format.\n"
 	             "  -f FILE     Write estimated parameter to FILE. [tigmint-long.params.tsv]\n"
 	             "  -s          Calculate span parameter for tigmint-long automatically.\n"
 	             "  -c C        Use 'C * sequence coverage' to estimate span parameter. [0.25]\n"
 	             "  -d          Calculate dist parameter for tigmint-long automatically.\n"
 	             "  -p P        Use P percentile to estimate dist parameter. [50].\n"
+                 "  -t T        Use T number of threads (max 6) per input file. [6]\n"
 	             "  -v          Show verbose output.\n"
 	             "  --help      Display this help and exit.\n"
 	             "  --version   Display version and exit.\n"
@@ -57,7 +58,7 @@ main(int argc, char* argv[])
 	int optindex = 0;
 	int help = 0, version = 0;
 	bool auto_span = false, auto_dist = false;
-	size_t l = 0, g = 0;
+	size_t l = 0, g = 0, t = 1;
 	bool g_set = false;
 	bool l_set = false;
 	double cov_to_span = 0.25;      // Optimal tigmint-long span is 1/4 sequence coverage
@@ -72,7 +73,7 @@ main(int argc, char* argv[])
 		                                      { "help", no_argument, &help, 1 },
 		                                      { "version", no_argument, &version, 1 },
 		                                      { nullptr, 0, nullptr, 0 } };
-	while ((c = getopt_long(argc, argv, "l:g:o:c:p:sdf:", longopts, &optindex)) != -1) {
+	while ((c = getopt_long(argc, argv, "l:g:o:c:p:sdf:t:", longopts, &optindex)) != -1) {
 		switch (c) {
 		case 0:
 			break;
@@ -90,6 +91,8 @@ main(int argc, char* argv[])
 		case 'c':
 			cov_to_span = std::stod(optarg);
 			break;
+		case 't':
+			t = std::stoul(optarg);
 		case 'f':
 			configFile = optarg;
 			break;
@@ -102,6 +105,14 @@ main(int argc, char* argv[])
 		default:
 			std::exit(EXIT_FAILURE);
 		}
+	}
+
+
+	if (t > MAX_THREADS) {
+		t = MAX_THREADS;
+		std::cerr << (PROGNAME + ' ' + VERSION + ": Using more than " +
+		              std::to_string(MAX_THREADS) + " threads does not scale, reverting to " + std::to_string(MAX_THREADS) + ".\n")
+		          << std::flush;
 	}
 
 	std::vector<std::string> infiles(&argv[optind], &argv[argc]);
@@ -149,7 +160,7 @@ main(int argc, char* argv[])
 		unsigned flags = 0;
 		flags |= btllib::SeqReader::Flag::NO_FOLD_CASE; // skip time intensive checking
 		flags |= btllib::SeqReader::Flag::NO_TRIM_MASKED;
-		btllib::SeqReader reader(infile, flags, 6, 4, 1);
+		btllib::SeqReader reader(infile, flags, t, 4, 1);
 		btllib::SeqReader::Record record;
 		while ((record = reader.read())) {
 			size_t step = l * 2;
