@@ -36,14 +36,15 @@ print_usage()
 	std::cerr << "Usage: Split long reads into paired-end pseudo-linked reads." << PROGNAME
 	          << " -l L -g G [--fasta -s -d -p P -c C -t T -f FILE] READS \n\n"
 	             "  -l L        Use L as simulated read length size.\n"
-	             "  -g G        Use G as Genome size (bp) for calculating tigmint-long span parameter as an integer or in scientific notation (e.g. '3e9').\n"
+	             "  -g G        Use G as Genome size (bp) for calculating tigmint-long span "
+	             "parameter as an integer or in scientific notation (e.g. '3e9').\n"
 	             "  --fasta     Output in fasta format.\n"
 	             "  -f FILE     Write estimated parameter to FILE. [tigmint-long.params.tsv]\n"
 	             "  -s          Calculate span parameter for tigmint-long automatically.\n"
 	             "  -c C        Use 'C * sequence coverage' to estimate span parameter. [0.25]\n"
 	             "  -d          Calculate dist parameter for tigmint-long automatically.\n"
 	             "  -p P        Use P percentile to estimate dist parameter. [50].\n"
-                 "  -t T        Use T number of threads (max 6) per input file. [6]\n"
+	             "  -t T        Use T number of threads (max 6) per input file. [6]\n"
 	             "  -v          Show verbose output.\n"
 	             "  --help      Display this help and exit.\n"
 	             "  --version   Display version and exit.\n"
@@ -107,11 +108,11 @@ main(int argc, char* argv[])
 		}
 	}
 
-
 	if (t > MAX_THREADS) {
 		t = MAX_THREADS;
 		std::cerr << (PROGNAME + ' ' + VERSION + ": Using more than " +
-		              std::to_string(MAX_THREADS) + " threads does not scale, reverting to " + std::to_string(MAX_THREADS) + ".\n")
+		              std::to_string(MAX_THREADS) + " threads does not scale, reverting to " +
+		              std::to_string(MAX_THREADS) + ".\n")
 		          << std::flush;
 	}
 
@@ -257,7 +258,8 @@ main(int argc, char* argv[])
 
 		if (auto_dist) {
 			if (read_lengths.size() == 0) {
-				std::cerr << "Psuedolr: unable to estimate dist parameter due to no valid lengths"
+				std::cerr << "long-to-linked-pe: unable to estimate dist parameter due to no valid "
+				             "lengths"
 				          << std::endl;
 			} else {
 				size_t dist_estimate;
