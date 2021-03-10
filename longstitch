@@ -188,18 +188,18 @@ $(reads).cut$(cut).fq.gz: $(long_reads)
 ifeq ($(span), auto)
 ifneq ($G, -1)
 ifeq ($(dist), auto)
-	$(longstitch_time) sh -c 'gunzip -c $< | $(bin)/bin/long-to-linked-pe -l$(cut) -g$G -s -d -f $(reads).tigmint-long.params.tsv --fastq | $(gzip) > $@'
+	$(longstitch_time) sh -c '$(bin)/src/long-to-linked-pe -l$(cut) -g$G -s -d -f $(reads).tigmint-long.params.tsv $< | $(gzip) > $@'
 else
-	$(longstitch_time) sh -c ' gunzip -c $< | $(bin)/bin/long-to-linked-pe -l$(cut) -g$G -s -f $(reads).tigmint-long.params.tsv --fastq | $(gzip) > $@'
+	$(longstitch_time) sh -c '$(bin)/src/long-to-linked-pe -l$(cut) -g$G -s -f $(reads).tigmint-long.params.tsv $< | $(gzip) > $@'
 endif
 else
 	$(error ERROR: genome size (G) must be provided to calculate span parameter in long-to-linked-pe)
 endif
 else
 ifeq ($(dist), auto)
-	$(longstitch_time) sh -c 'gunzip -c $< | $(bin)/bin/long-to-linked-pe -l$(cut) -g$G -d -f $(reads).tigmint-long.params.tsv --fastq | $(gzip) > $@'
+	$(longstitch_time) sh -c '$(bin)/src/long-to-linked-pe -l$(cut) -g$G -d -f $(reads).tigmint-long.params.tsv $< | $(gzip) > $@'
 else
-	$(longstitch_time) sh -c 'gunzip -c $< | $(bin)/bin/long-to-linked-pe -l$(cut) -g$G --f $(reads).tigmint-long.params.tsv --fastq | $(gzip) > $@'
+	$(longstitch_time) sh -c '$(bin)/src/long-to-linked-pe -l$(cut) -g$G --f $(reads).tigmint-long.params.tsv $<| $(gzip) > $@'
 endif
 endif
 

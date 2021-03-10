@@ -11,6 +11,12 @@ A long-read scaffolding pipeline that consists of three stages:
 * [ABySS](https://github.com/bcgsc/abyss)
 * [LINKS](https://github.com/bcgsc/links)
 
+### Installation
+```
+cd src
+make
+```
+
 ### Usage
 To run the LongStitch pipeline, you can use the Makefile driver script `longstitch`.
 ```
