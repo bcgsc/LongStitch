@@ -45,7 +45,8 @@ print_usage()
 	       "  -c C        Use 'C * sequence coverage' to estimate span parameter. [0.25]\n"
 	       "  -d          Calculate dist parameter for tigmint-long automatically.\n"
 	       "  -p P        Use P percentile to estimate dist parameter. [50].\n"
-	       "  -m M        M minimum read length for a read to be considered a molecule. [2000].\n"
+	       "  -m M        Minimum read length for a read to be considered a molecule. [2000].\n"
+
 	       "  -t T        Use T number of threads (max 6) per input file. [6]\n"
 	       "  -v          Show verbose output.\n"
 	       "  --help      Display this help and exit.\n"
