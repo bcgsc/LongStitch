@@ -33,23 +33,26 @@ print_error_msg(const std::string& msg)
 static void
 print_usage()
 {
-	std::cerr << "Usage: Split long reads into paired-end pseudo-linked reads." << PROGNAME
-	          << " -l L -g G [--fasta -s -d -p P -c C -t T -f FILE] READS \n\n"
-	             "  -l L        Use L as simulated read length size.\n"
-	             "  -g G        Use G as Genome size (bp) for calculating tigmint-long span "
-	             "parameter as an integer or in scientific notation (e.g. '3e9').\n"
-	             "  --fasta     Output in fasta format.\n"
-	             "  -f FILE     Write estimated parameter to FILE. [tigmint-long.params.tsv]\n"
-	             "  -s          Calculate span parameter for tigmint-long automatically.\n"
-	             "  -c C        Use 'C * sequence coverage' to estimate span parameter. [0.25]\n"
-	             "  -d          Calculate dist parameter for tigmint-long automatically.\n"
-	             "  -p P        Use P percentile to estimate dist parameter. [50].\n"
-	             "  -t T        Use T number of threads (max 6) per input file. [6]\n"
-	             "  -v          Show verbose output.\n"
-	             "  --help      Display this help and exit.\n"
-	             "  --version   Display version and exit.\n"
-	             "  READS       Space separated list of long reads FASTA/Q files to be cut."
-	          << std::endl;
+	std::cerr
+	    << "Usage: Split long reads into paired-end pseudo-linked reads." << PROGNAME
+	    << " -l L -g G [--fasta -s -d -p P -c C -m M -t T -f FILE] READS \n\n"
+	       "  -l L        Use L as simulated read length size.\n"
+	       "  -g G        Use G as Genome size (bp) for calculating tigmint-long span "
+	       "parameter as an integer or in scientific notation (e.g. '3e9').\n"
+	       "  --fasta     Output in fasta format.\n"
+	       "  -f FILE     Write estimated parameter to FILE. [tigmint-long.params.tsv]\n"
+	       "  -s          Calculate span parameter for tigmint-long automatically.\n"
+	       "  -c C        Use 'C * sequence coverage' to estimate span parameter. [0.25]\n"
+	       "  -d          Calculate dist parameter for tigmint-long automatically.\n"
+	       "  -p P        Use P percentile to estimate dist parameter. [50].\n"
+	       "  -m M        Minimum read length for a read to be considered a molecule. [2000].\n"
+
+	       "  -t T        Use T number of threads (max 7). [7]\n"
+	       "  -v          Show verbose output.\n"
+	       "  --help      Display this help and exit.\n"
+	       "  --version   Display version and exit.\n"
+	       "  READS       Space separated list of long reads FASTA/Q files to be cut."
+	    << std::endl;
 }
 
 int
@@ -59,7 +62,7 @@ main(int argc, char* argv[])
 	int optindex = 0;
 	int help = 0, version = 0;
 	bool auto_span = false, auto_dist = false;
-	size_t l = 0, g = 0, t = 6;
+	size_t l = 0, g = 0, t = 7, m = 2000;
 	bool g_set = false;
 	bool l_set = false;
 	double cov_to_span = 0.25;      // Optimal tigmint-long span is 1/4 sequence coverage
@@ -81,6 +84,9 @@ main(int argc, char* argv[])
 		case 'l':
 			l_set = true;
 			l = std::stoul(optarg);
+			break;
+		case 'm':
+			m = std::stoul(optarg);
 			break;
 		case 'g':
 			g_set = true;
@@ -161,7 +167,7 @@ main(int argc, char* argv[])
 		unsigned flags = 0;
 		flags |= btllib::SeqReader::Flag::NO_FOLD_CASE; // skip time intensive checking
 		flags |= btllib::SeqReader::Flag::NO_TRIM_MASKED;
-		btllib::SeqReader reader(infile, flags, t, 4, 1);
+		btllib::SeqReader reader(infile, flags, t - 1, 4, 1);
 		btllib::SeqReader::Record record;
 		while ((record = reader.read())) {
 			size_t step = l * 2;
@@ -169,7 +175,17 @@ main(int argc, char* argv[])
 			std::string& qual = record.qual;
 			size_t seq_size = seq.size();
 			size_t qual_size = qual.size();
-			if (step > seq_size) {
+
+			if (auto_dist) {
+				if (seq_size > dist_lower_bound) {
+					read_lengths.push_back(seq_size);
+				}
+			}
+			if (auto_span) {
+				total_bases += seq_size;
+			}
+
+			if (step > seq_size || m > seq_size) {
 				continue;
 			}
 			int read_num = 1;
@@ -238,15 +254,6 @@ main(int argc, char* argv[])
 			}
 
 			std::cout << std::flush;
-
-			if (auto_dist) {
-				if (seq_size > dist_lower_bound) {
-					read_lengths.push_back(seq_size);
-				}
-			}
-			if (auto_span) {
-				total_bases += seq_size;
-			}
 		}
 	}
 
