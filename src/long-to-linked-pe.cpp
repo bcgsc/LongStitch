@@ -47,7 +47,7 @@ print_usage()
 	       "  -p P        Use P percentile to estimate dist parameter. [50].\n"
 	       "  -m M        Minimum read length for a read to be considered a molecule. [2000].\n"
 
-	       "  -t T        Use T number of threads (max 6) per input file. [7]\n"
+	       "  -t T        Use T number of threads (max 7). [7]\n"
 	       "  -v          Show verbose output.\n"
 	       "  --help      Display this help and exit.\n"
 	       "  --version   Display version and exit.\n"
