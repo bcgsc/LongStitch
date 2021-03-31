@@ -134,7 +134,7 @@ tigmint-ntLink-arks: tigmint-ntLink arks-with-tigmint-ntLink
 tigmint-ntLink: tigmint ntLink-with-tigmint
 tigmint-arcs: tigmint arcs-with-tigmint
 tigmint-arks: tigmint arks-with-tigmint
-tigmint: $(reads).cut$(cut).fq.gz $(draft).cut$(cut).tigmint.fa
+tigmint: $(draft).cut$(cut).tigmint.fa
 	
 $(draft).cut$(cut).tigmint.fa: $(draft).fa $(long_reads)
 	$(longstitch_time) tigmint-make tigmint-long draft=$(draft) reads=$(reads) cut=$(cut) t=$t G=$G span=$(span) dist=$(dist)
