@@ -2,7 +2,9 @@
 A long-read scaffolding pipeline that consists of three stages:
 * [Tigmint](https://github.com/bcgsc/tigmint) cuts the draft assembly at potentially misassembled regions
 * [ntLink](https://github.com/bcgsc/ntLink) is then used to scaffold the corrected assembly
-* followed by [ARCS](https://github.com/bcgsc/arcs) for further scaffolding
+* followed by [ARCS](https://github.com/bcgsc/arcs) for further scaffolding (optional extra step of scaffolding)
+
+![image](LongStitch_overview.png)
 
 ### Dependencies
 * [Tigmint](https://github.com/bcgsc/tigmint)
