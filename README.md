@@ -16,49 +16,50 @@ A long-read scaffolding pipeline that consists of three stages:
 To run the LongStitch pipeline, you can use the Makefile driver script `longstitch`.
 ```
 Usage: ./longstitch [COMMAND] [OPTION=VALUE]…
+	Commands:
 
-Commands:
-all     		run full LongStitch pipeline: Tigmint, ntLink, then ARCS
-tigmint-ntLink-arks	run full LongStitch pipeline: Tigmint, ntLink, then ARKS
-tigmint-ntLink		run Tigmint, then run ntLink with the output of Tigmint
-tigmint-arcs		run Tigmint, then run ARCS in default mode with the output of Tigmint
-tigmint-arks		run Tigmint, then run ARCS in kmer mode with the output of Tigmint
-ntLink-arcs		run ntLink, then run ARCS in default mode with the output of ntLink
-ntLink-arks		run ntLink, then run ARCS in kmer mode with the output of ntLink
+	run     		run default LongStitch pipeline: Tigmint, then ntLink
 
-General options (required):
-draft			draft name [draft]. File must have .fa extension
-reads			read name [reads]. File must have .fq.gz or .fa.gz extension
+	tigmint-ntLink-arks	run full LongStitch pipeline: Tigmint, ntLink, then ARCS in kmer mode
+	tigmint-ntLink-arcs	run full LongStitch pipeline: Tigmint, ntLink, then ARCS
+	tigmint-ntLink		run Tigmint, then ntLink (Same as 'run' target)
+	ntLink-arcs		run ntLink, then run ARCS in default mode
+	ntLink-arks		run ntLink, then run ARCS in kmer mode
 
-General options (optional):
-t			number of threads [8]
-z			minimum size of contig (bp) to scaffold [1000]
+	General options (required):
+	draft			draft name [draft]. File must have .fa extension
+	reads			read name [reads]. File must have .fq.gz or .fa.gz extension
 
-Tigmint options:
-span			min number of spanning molecules to be considered correctly assembled [auto]
-dist			maximum distance between alignments to be considered the same molecule [auto]
-G			haploid genome size (bp) for calculating span parameter. (e.g. '3e9' for human genome) [-1]
+	General options (optional):
+	t			number of threads [8]
+	z			minimum size of contig (bp) to scaffold [1000]
 
-ntLink options:
-k_ntLink		k-mer size for minimizers [32]
-w			window size for minimizers [100]
+	Tigmint options:
+	span			min number of spanning molecules to be considered correctly assembled [auto]
+	dist			maximum distance between alignments to be considered the same molecule [auto]
+	G			haploid genome size (bp) for calculating span parameter. (e.g. '3e9' for human genome) [-1]
 
-ARCS+LINKS options:
-s			minimum sequence identity (used in default mode) [70]
-j			minimum fraction of read kmers matching a contigId (used in kmer mode) [0.05]
-k_arks			size of a k-mer (used in kmer mode) [20]
-c			minimum aligned read pairs per molecule [4]
-l			minimum number of links to compute scaffold [4]
-a			maximum link ratio between two best contain pairs [0.3]
+	ntLink options:
+	k_ntLink		k-mer size for minimizers [32]
+	w			window size for minimizers [100]
+
+	ARCS+LINKS options:
+	s			minimum sequence identity (used in default mode) [70]
+	j			minimum fraction of read kmers matching a contigId (used in kmer mode) [0.05]
+	k_arks			size of a k-mer (used in kmer mode) [20]
+	c			minimum aligned read pairs per molecule [4]
+	l			minimum number of links to compute scaffold [4]
+	a			maximum link ratio between two best contain pairs [0.3]
 
 Notes:
 	- by default, span is automatically calculated as 1/4 of the sequence coverage of the input long reads
 	- by default, dist is automatically calculated as p5 of the input long read lengths
+	- Ensure that all input files are in the current working directory, making soft-links if needed
 ```
 
-For example, to run the entire pipeline on a draft assembly `draft-assembly.fa` with the reads `reads.fa.gz` and a genome size of `gsize`:
+For example, to run the default pipeline on a draft assembly `draft-assembly.fa` with the reads `reads.fa.gz` and a genome size of `gsize`:
 ```
-longstitch all draft=draft-assembly reads=reads G=gsize
+longstitch run draft=draft-assembly reads=reads G=gsize
 ```
 
 ## License

@@ -77,7 +77,7 @@ endif
 # Determine path to LongStitch executables
 bin=$(shell dirname `command -v $(MAKEFILE_LIST)`)
 
-.PHONY: help all version clean tigmint ntLink tigmint-ntLink ntLink-with-tigmint tigmint-arcs tigmint-arks \
+.PHONY: help run version clean tigmint ntLink tigmint-ntLink ntLink-with-tigmint tigmint-arcs tigmint-arks \
 		arcs-with-tigmint arks-with-tigmint ntLink-arcs ntLink-arks arcs-with-ntLink arks-with-ntLink \
 		tigmint-ntLink-arcs tigmint-ntLink-arks arcs-with-tigmint-ntLink arks-with-tigmint-ntLink \
 		check_ref longstitch_quast
@@ -89,13 +89,13 @@ help:
 	@echo "Usage: ./longstitch [COMMAND] [OPTION=VALUE]…"
 	@echo "	Commands:"
 	@echo ""
-	@echo "	all     		run full LongStitch pipeline: Tigmint, ntLink, then ARCS in kmer mode"
+	@echo "	run     		run default LongStitch pipeline: Tigmint, then ntLink"
+	@echo ""
+	@echo "	tigmint-ntLink-arks	run full LongStitch pipeline: Tigmint, ntLink, then ARCS in kmer mode"
 	@echo "	tigmint-ntLink-arcs	run full LongStitch pipeline: Tigmint, ntLink, then ARCS"
-	@echo "	tigmint-ntLink		run Tigmint, then run ntLink with the output of Tigmint"
-	@echo "	tigmint-arcs		run Tigmint, then run ARCS in default mode with the output of Tigmint"
-	@echo "	tigmint-arks		run Tigmint, then run ARCS in kmer mode with the output of Tigmint"
-	@echo "	ntLink-arcs		run ntLink, then run ARCS in default mode with the output of ntLink"
-	@echo "	ntLink-arks		run ntLink, then run ARCS in kmer mode with the output of ntLink"
+	@echo "	tigmint-ntLink		run Tigmint, then ntLink (Same as 'run' target)"
+	@echo "	ntLink-arcs		run ntLink, then run ARCS in default mode"
+	@echo "	ntLink-arks		run ntLink, then run ARCS in kmer mode"
 	@echo ""
 	@echo "	General options (required):"
 	@echo "	draft			draft name [draft]. File must have .fa extension"
@@ -125,13 +125,14 @@ help:
 	@echo "Notes:"
 	@echo "	- by default, span is automatically calculated as 1/4 of the sequence coverage of the input long reads"
 	@echo "	- by default, dist is automatically calculated as p5 of the input long read lengths"
+	@echo "	- Ensure that all input files are in the current working directory, making soft-links if needed"
 
 clean:
 	rm -f *.amb *.ann *.bwt *.pac *.sa *.dist.gv *.fai *.bed *.molecule.tsv *.sortbx.bai *.k$(k).w$(w).tsv *.k$(k).w$(w).tsv
 	@echo "Clean Done" 
 
 # Run tigmint-long
-all: tigmint-ntLink-arks
+run: tigmint-ntLink
 tigmint-ntLink-arcs: tigmint-ntLink arcs-with-tigmint-ntLink
 tigmint-ntLink-arks: tigmint-ntLink arks-with-tigmint-ntLink
 tigmint-ntLink: tigmint ntLink-with-tigmint
