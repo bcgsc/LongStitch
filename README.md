@@ -4,7 +4,7 @@ A long-read scaffolding pipeline that consists of three stages:
 * [ntLink](https://github.com/bcgsc/ntLink) is then used to scaffold the corrected assembly
 * followed by [ARCS](https://github.com/bcgsc/arcs) for further scaffolding (optional extra step of scaffolding)
 
-![image](LongStitch_overview.png)
+<img src="https://github.com/bcgsc/LongStitch/blob/stream_reads_change/LongStitch_overview.png" width="480">
 
 ### Dependencies
 * [Tigmint](https://github.com/bcgsc/tigmint)
