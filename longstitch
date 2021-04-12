@@ -69,6 +69,9 @@ longstitch_time=command gtime -v -o $@.time
 else
 longstitch_time=command time -v -o $@.time
 endif
+ifneq ($(shell command -v memusg),)
+longstitch_time=command memusg -t -o $@.time
+endif
 endif
 
 # Determine path to LongStitch executables
