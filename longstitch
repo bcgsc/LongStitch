@@ -1,5 +1,8 @@
 #!/usr/bin/make -rRf
 
+# LongStitch: correcting and scaffolding draft assemblies using long reads
+# Version v0.0.1
+
 # Input files
 draft=draft
 reads=reads
@@ -86,6 +89,8 @@ bin=$(shell dirname `command -v $(MAKEFILE_LIST)`)
 
 # Help
 help:
+	@echo "LongStitch v0.0.1"
+	@echo ""
 	@echo "Usage: ./longstitch [COMMAND] [OPTION=VALUE]…"
 	@echo "	Commands:"
 	@echo ""
@@ -129,7 +134,11 @@ help:
 
 clean:
 	rm -f *.amb *.ann *.bwt *.pac *.sa *.dist.gv *.fai *.bed *.molecule.tsv *.sortbx.bai *.k$(k).w$(w).tsv *.k$(k).w$(w).tsv
-	@echo "Clean Done" 
+	@echo "Clean Done"
+
+version:
+	@echo "LongStitch v0.0.1"
+	@echo "Written by Lauren Coombe, Janet Li and Theodora Lo"
 
 # Run tigmint-long
 run: tigmint-ntLink
