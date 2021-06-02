@@ -1,17 +1,17 @@
 # LongStitch
-A long-read scaffolding pipeline that consists of three stages:
+A genome assembly correction and scaffolding pipeline using long reads, consisting of two or three steps:
 * [Tigmint](https://github.com/bcgsc/tigmint) cuts the draft assembly at potentially misassembled regions
 * [ntLink](https://github.com/bcgsc/ntLink) is then used to scaffold the corrected assembly
-* followed by [ARCS](https://github.com/bcgsc/arcs) for further scaffolding (optional extra step of scaffolding)
+* followed by [ARKS](https://github.com/bcgsc/arcs) for further scaffolding (optional extra step of scaffolding)
 
 <img src="https://github.com/bcgsc/LongStitch/blob/master/LongStitch_overview.png" width="480">
 
 ### Dependencies
-* [Tigmint](https://github.com/bcgsc/tigmint)
-* [ntLink](https://github.com/bcgsc/ntLink)
-* [ARCS](https://github.com/bcgsc/arcs)
-* [ABySS](https://github.com/bcgsc/abyss)
-* [LINKS](https://github.com/bcgsc/links)
+* [Tigmint](https://github.com/bcgsc/tigmint) v1.2.3+
+* [ntLink](https://github.com/bcgsc/ntLink) v1.0.0+
+* [ARCS/ARKS](https://github.com/bcgsc/arcs) v1.2.2+
+* [ABySS](https://github.com/bcgsc/abyss) v2.0.0+
+* [LINKS](https://github.com/bcgsc/links) v1.8.5+
 
 
 ### Usage
