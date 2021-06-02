@@ -9,9 +9,9 @@ A genome assembly correction and scaffolding pipeline using long reads, consisti
 ### Dependencies
 * [Tigmint](https://github.com/bcgsc/tigmint) v1.2.3+
 * [ntLink](https://github.com/bcgsc/ntLink) v1.0.0+
-* [ARCS/ARKS](https://github.com/bcgsc/arcs) 1.2.2+
-* [ABySS](https://github.com/bcgsc/abyss) 2.0.0+
-* [LINKS](https://github.com/bcgsc/links) 1.8.5+
+* [ARCS/ARKS](https://github.com/bcgsc/arcs) v1.2.2+
+* [ABySS](https://github.com/bcgsc/abyss) v2.0.0+
+* [LINKS](https://github.com/bcgsc/links) v1.8.5+
 
 
 ### Usage
