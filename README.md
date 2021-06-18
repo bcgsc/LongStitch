@@ -1,5 +1,5 @@
 # LongStitch
-A genome assembly correction and scaffolding pipeline using long reads, consisting of two or three steps:
+A genome assembly correction and scaffolding pipeline using long reads, consisting of up to three steps:
 * [Tigmint](https://github.com/bcgsc/tigmint) cuts the draft assembly at potentially misassembled regions
 * [ntLink](https://github.com/bcgsc/ntLink) is then used to scaffold the corrected assembly
 * followed by [ARKS](https://github.com/bcgsc/arcs) for further scaffolding (optional extra step of scaffolding)
@@ -7,7 +7,7 @@ A genome assembly correction and scaffolding pipeline using long reads, consisti
 <img src="https://github.com/bcgsc/LongStitch/blob/master/LongStitch_overview.png" width="480">
 
 ### Credits
-LongStitch was developed and designed by Lauren Coombe, Janet Li, Theodora Lo and Rene Warren
+LongStitch was developed and designed by Lauren Coombe, Janet Li, Theodora Lo and Rene Warren.
 
 ### Citing LongStitch
 If you use LongStitch in your research, please cite:
