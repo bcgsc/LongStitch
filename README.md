@@ -21,6 +21,7 @@ Coombe L, Li JX, Lo T, Wong J, Nikolic V, Warren RL and Birol I. LongStitch: Hig
 * [ARCS/ARKS](https://github.com/bcgsc/arcs) v1.2.2+
 * [ABySS](https://github.com/bcgsc/abyss) v2.0.0+
 * [LINKS](https://github.com/bcgsc/links) v1.8.5+
+* [samtools](http://www.htslib.org/)
 
 
 ### Usage
