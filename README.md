@@ -68,6 +68,7 @@ Notes:
 	- Ensure that all input files are in the current working directory, making soft-links if needed
 ```
 
+### Example command
 For example, to run the default pipeline on a draft assembly `draft-assembly.fa` with the reads `reads.fa.gz` and a genome size of `gsize`:
 ```
 longstitch run draft=draft-assembly reads=reads G=gsize
