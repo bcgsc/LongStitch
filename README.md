@@ -49,7 +49,7 @@ Usage: ./longstitch [COMMAND] [OPTION=VALUE]…
 	Tigmint options:
 	span			min number of spanning molecules to be considered correctly assembled [auto]
 	dist			maximum distance between alignments to be considered the same molecule [auto]
-	G			haploid genome size (bp) for calculating span parameter. (e.g. '3e9' for human genome) [-1]
+	G			haploid genome size (bp) for calculating span parameter. (e.g. '3e9' for human genome) [0]
 
 	ntLink options:
 	k_ntLink		k-mer size for minimizers [32]
@@ -65,6 +65,7 @@ Usage: ./longstitch [COMMAND] [OPTION=VALUE]…
 
 Notes:
 	- by default, span is automatically calculated as 1/4 of the sequence coverage of the input long reads
+	- G (genome size) must be specified if span=auto
 	- by default, dist is automatically calculated as p5 of the input long read lengths
 	- Ensure that all input files are in the current working directory, making soft-links if needed
 ```

@@ -24,7 +24,7 @@ t=8
 # Default Tigmint parameters
 span=auto
 dist=auto
-G=-1
+G=0
 
 # Default ntLink parameters
 k_ntLink=32
@@ -113,7 +113,7 @@ help:
 	@echo "	Tigmint options:"
 	@echo "	span			min number of spanning molecules to be considered correctly assembled [auto]"
 	@echo "	dist			maximum distance between alignments to be considered the same molecule [auto]"
-	@echo "	G			haploid genome size (bp) for calculating span parameter. (e.g. '3e9' for human genome) [-1]"
+	@echo "	G			haploid genome size (bp) for calculating span parameter. (e.g. '3e9' for human genome) [0]"
 	@echo ""
 	@echo "	ntLink options:"
 	@echo "	k_ntLink		k-mer size for minimizers [32]"
@@ -129,6 +129,7 @@ help:
 	@echo ""
 	@echo "Notes:"
 	@echo "	- by default, span is automatically calculated as 1/4 of the sequence coverage of the input long reads"
+	@echo "	- G (genome size) must be specified if span=auto"
 	@echo "	- by default, dist is automatically calculated as p5 of the input long read lengths"
 	@echo "	- Ensure that all input files are in the current working directory, making soft-links if needed"
 
@@ -222,7 +223,7 @@ longstitch_quast: arks-with-tigmint-ntLink check_ref \
 			quast_longstitch-z$z_ntLink-k$(k_ntLink)-w$w_arks-long
 
 ntLink_quast: ntLink check_ref \
-            quast_ntLink-z$z_ntLink-k$(k_ntLink)-w$w
+			quast_ntLink-z$z_ntLink-k$(k_ntLink)-w$w
 
 check_ref:
 ifeq ($(ref), None)
@@ -231,10 +232,10 @@ endif
 
 quast_longstitch-z$z_ntLink-k$(k_ntLink)-w$w_arks-long: arks-with-tigmint-ntLink
 	quast -t $(quast_t) -o $@ -r $(ref) --fast --scaffold-gap-max-size 100000  --large \
-        $(draft).fa  \
-        $(draft).cut$(cut).tigmint.fa \
-        $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa \
-        $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+		$(draft).fa  \
+		$(draft).cut$(cut).tigmint.fa \
+		$(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa \
+		$(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 
 quast_ntLink-z$z_ntLink-k$(k_ntLink)-w$w: ntLink
 	quast -t $(quast_t) -o $@ -r $(ref) --fast --scaffold-gap-max-size 100000  --large \
