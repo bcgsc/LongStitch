@@ -101,9 +101,7 @@ help:
 	@echo "	run     		run default LongStitch pipeline: Tigmint, then ntLink"
 	@echo ""
 	@echo "	tigmint-ntLink-arks	run full LongStitch pipeline: Tigmint, ntLink, then ARCS in kmer mode"
-	@echo "	tigmint-ntLink-arcs	run full LongStitch pipeline: Tigmint, ntLink, then ARCS"
 	@echo "	tigmint-ntLink		run Tigmint, then ntLink (Same as 'run' target)"
-	@echo "	ntLink-arcs		run ntLink, then run ARCS in default mode"
 	@echo "	ntLink-arks		run ntLink, then run ARCS in kmer mode"
 	@echo ""
 	@echo "	General options (required):"
@@ -189,7 +187,8 @@ arcs-with-tigmint-ntLink: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.sti
 	$(longstitch_time) arcs-make arcs-long draft=$*.stitch.abyss-scaffold reads=$(reads) m=$m cut=$(cut) s=$s l=$l c=$c a=$a D=$D z=$z
 
 # Run with arks-long
-arks-with-ntLink: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+arks-with-ntLink: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa \
+	$(draft).ntLink-arks.longstitch-scaffolds.fa
 arks-with-tigmint: $(draft).cut$(cut).tigmint_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 arks-with-tigmint-ntLink: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa \
 			$(draft).tigmint-ntLink-arks.longstitch-scaffolds.fa
@@ -197,6 +196,10 @@ arks-with-tigmint-ntLink: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.sti
 $(draft).tigmint-ntLink-arks.longstitch-scaffolds.fa: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 	ln -sf $< $@
 	echo "Done LongStitch steps Tigmint, ntLink and ARKS-long! Scaffolds can be found in: $@"
+
+$(draft).ntLink-arks.longstitch-scaffolds.fa: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+	ln -sf $< $@
+	echo "Done LongStitch steps ntLink and ARKS-long! Scaffolds can be found in: $@"
 
 %.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: %.stitch.abyss-scaffold.fa $(long_reads)
 	$(longstitch_time) arcs-make arks-long draft=$*.stitch.abyss-scaffold reads=$(reads) m=$m cut=$(cut) j=$j k=$(k_arks) l=$l c=$c a=$a D=$D z=$z
