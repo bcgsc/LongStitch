@@ -1,5 +1,5 @@
 graph G {
 0 [id=3];
 1 [id=4];
-0--1 [label=2, weight=7];
+0--1 [label=3, weight=7];
 }

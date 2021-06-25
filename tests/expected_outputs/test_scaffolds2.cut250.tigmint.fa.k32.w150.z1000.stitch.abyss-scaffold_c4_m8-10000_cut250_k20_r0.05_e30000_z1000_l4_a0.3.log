@@ -24,29 +24,29 @@ Checking sequence target file test_scaffolds2.cut250.tigmint.fa.k32.w150.z1000.s
 Scaffolding mid-point files:
 test_scaffolds2.cut250.tigmint.fa.k32.w150.z1000.stitch.abyss-scaffold_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.tigpair_checkpoint.tsv
 test_scaffolds2.cut250.tigmint.fa.k32.w150.z1000.stitch.abyss-scaffold_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.simplepair_checkpoint.tsv
-detected; LINKS will skip contig pairing and use info from files instead : Fri Jun 25 14:39:11 PDT 2021
+detected; LINKS will skip contig pairing and use info from files instead : Fri Jun 25 15:20:20 PDT 2021
 
-Reading sequences from test_scaffolds2.cut250.tigmint.fa.k32.w150.z1000.stitch.abyss-scaffold.renamed.fa : Fri Jun 25 14:39:11 PDT 2021
-
-done.
-Reading sequence pairs from test_scaffolds2.cut250.tigmint.fa.k32.w150.z1000.stitch.abyss-scaffold_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.tigpair_checkpoint.tsv : Fri Jun 25 14:39:11 PDT 2021
+Reading sequences from test_scaffolds2.cut250.tigmint.fa.k32.w150.z1000.stitch.abyss-scaffold.renamed.fa : Fri Jun 25 15:20:20 PDT 2021
 
 done.
-Building scaffolds : Fri Jun 25 14:39:11 PDT 2021
+Reading sequence pairs from test_scaffolds2.cut250.tigmint.fa.k32.w150.z1000.stitch.abyss-scaffold_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.tigpair_checkpoint.tsv : Fri Jun 25 15:20:20 PDT 2021
 
 done.
-Building .gv graph : Fri Jun 25 14:39:11 PDT 2021
+Building scaffolds : Fri Jun 25 15:20:20 PDT 2021
+
+done.
+Building .gv graph : Fri Jun 25 15:20:20 PDT 2021
 
 
-=>Scaffolding ended : Fri Jun 25 14:39:11 PDT 2021
+=>Scaffolding ended : Fri Jun 25 15:20:20 PDT 2021
 Scaffolds layout in: test_scaffolds2.cut250.tigmint.fa.k32.w150.z1000.stitch.abyss-scaffold_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.scaffolds
 Scaffold graph in: test_scaffolds2.cut250.tigmint.fa.k32.w150.z1000.stitch.abyss-scaffold_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.gv
 
 
-=>Making FASTA file : Fri Jun 25 14:39:11 PDT 2021
+=>Making FASTA file : Fri Jun 25 15:20:20 PDT 2021
 Scaffolds FASTA in : test_scaffolds2.cut250.tigmint.fa.k32.w150.z1000.stitch.abyss-scaffold_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.scaffolds.fa
 
 
 =>Wrote correspondence file tracking LINKScontigID <=> OriginalContigNames : test_scaffolds2.cut250.tigmint.fa.k32.w150.z1000.stitch.abyss-scaffold_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.assembly_correspondence.tsv
 
-Scaffolding executed normally Fri Jun 25 14:39:11 PDT 2021
+Scaffolding executed normally Fri Jun 25 15:20:20 PDT 2021

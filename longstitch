@@ -157,7 +157,7 @@ $(draft).cut$(cut).tigmint.fa: $(draft).fa $(long_reads)
 
 # Run ntLink
 ntLink-with-tigmint: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa \
-	$(draft).tigmint-ntLink.longstitch-scaffolds.fa
+	$(draft).k$(k_ntLink).w$(w).tigmint-ntLink.longstitch-scaffolds.fa
 ntLink-arcs: ntLink arcs-with-ntLink
 ntLink-arks: ntLink arks-with-ntLink
 ntLink: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa
@@ -168,7 +168,7 @@ ntLink: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa
 $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa: $(draft).fa $(long_reads)
 	$(longstitch_time) ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n conservative=$(conservative)
 
-$(draft).tigmint-ntLink.longstitch-scaffolds.fa: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa
+$(draft).k$(k_ntLink).w$(w).tigmint-ntLink.longstitch-scaffolds.fa: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa 
 	ln -sf $< $@
 	echo "Done LongStitch steps Tigmint and ntLink! Scaffolds can be found in: $@"
 
@@ -188,16 +188,16 @@ arcs-with-tigmint-ntLink: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.sti
 
 # Run with arks-long
 arks-with-ntLink: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa \
-	$(draft).ntLink-arks.longstitch-scaffolds.fa
+	$(draft).k$(k_ntLink).w$(w).ntLink-arks.longstitch-scaffolds.fa
 arks-with-tigmint: $(draft).cut$(cut).tigmint_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 arks-with-tigmint-ntLink: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa \
-			$(draft).tigmint-ntLink-arks.longstitch-scaffolds.fa
+			$(draft).k$(k_ntLink).w$(w).tigmint-ntLink-arks.longstitch-scaffolds.fa
 
-$(draft).tigmint-ntLink-arks.longstitch-scaffolds.fa: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+$(draft).k$(k_ntLink).w$(w).tigmint-ntLink-arks.longstitch-scaffolds.fa: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 	ln -sf $< $@
 	echo "Done LongStitch steps Tigmint, ntLink and ARKS-long! Scaffolds can be found in: $@"
 
-$(draft).ntLink-arks.longstitch-scaffolds.fa: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+$(draft).k$(k_ntLink).w$(w).ntLink-arks.longstitch-scaffolds.fa: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 	ln -sf $< $@
 	echo "Done LongStitch steps ntLink and ARKS-long! Scaffolds can be found in: $@"
 
