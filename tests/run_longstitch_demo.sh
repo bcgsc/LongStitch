@@ -2,7 +2,7 @@
 
 set -eux -o pipefail
 
-echo "Testing LongStitch installation..."
+echo "Launching LongStitch test runs..."
 echo "Ensure all dependencies are in your PATH"
 
 echo "Running first test - default LongStitch steps..."
