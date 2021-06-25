@@ -204,7 +204,7 @@ $(draft).longstitch.fa: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitc
 # Pre-processing long reads; cut into shorter segments and optionally calculate tigmint-long dist and span parameters
 $(reads).cut$(cut).fq.gz: $(long_reads)
 ifeq ($(span), auto)
-ifneq ($G, -1)
+ifneq ($G, 0)
 ifeq ($(dist), auto)
 	$(longstitch_time) sh -c '$(bin)/src/long-to-linked-pe -l$(cut) -g$G -s -d -f $(reads).tigmint-long.params.tsv $< | $(gzip) > $@'
 else
