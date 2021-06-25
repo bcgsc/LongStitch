@@ -28,6 +28,8 @@ For example, to run the default pipeline on a draft assembly `draft-assembly.fa`
 ```
 longstitch run draft=draft-assembly reads=reads G=gsize
 ```
+Note that specifying `G` is required when `span=auto` for Tigmint-long.
+
 
 ### Full help page
 To run the LongStitch pipeline, you can use the Makefile driver script `longstitch`.
@@ -75,8 +77,6 @@ Notes:
 	- Ensure that all input files are in the current working directory, making soft-links if needed
 ```
 
-
-Note that specifying `G` is required when `span=auto` for Tigmint-long.
 
 ## License
 LongStitch Copyright (c) 2020 British Columbia Cancer Agency Branch. All rights reserved.
