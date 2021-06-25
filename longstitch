@@ -122,7 +122,6 @@ help:
 	@echo "	w			window size for minimizers [100]"
 	@echo ""
 	@echo "	ARCS+LINKS options:"
-	@echo "	s			minimum sequence identity (used in default mode) [70]"
 	@echo "	j			minimum fraction of read kmers matching a contigId (used in kmer mode) [0.05]"
 	@echo "	k_arks			size of a k-mer (used in kmer mode) [20]"
 	@echo "	c			minimum aligned read pairs per molecule [4]"	
