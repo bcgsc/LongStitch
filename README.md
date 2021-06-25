@@ -76,6 +76,8 @@ For example, to run the default pipeline on a draft assembly `draft-assembly.fa`
 longstitch run draft=draft-assembly reads=reads G=gsize
 ```
 
+Note that specifying `G` is required when `span=auto` for Tigmint-long.
+
 ## License
 LongStitch Copyright (c) 2020 British Columbia Cancer Agency Branch. All rights reserved.
 
