@@ -23,8 +23,13 @@ Coombe L, Li JX, Lo T, Wong J, Nikolic V, Warren RL and Birol I. LongStitch: Hig
 * [LINKS](https://github.com/bcgsc/links) v1.8.5+
 * [samtools](http://www.htslib.org/)
 
+### Example command
+For example, to run the default pipeline on a draft assembly `draft-assembly.fa` with the reads `reads.fa.gz` and a genome size of `gsize`:
+```
+longstitch run draft=draft-assembly reads=reads G=gsize
+```
 
-### Usage
+### Full help page
 To run the LongStitch pipeline, you can use the Makefile driver script `longstitch`.
 ```
 Usage: ./longstitch [COMMAND] [OPTION=VALUE]…
@@ -70,11 +75,6 @@ Notes:
 	- Ensure that all input files are in the current working directory, making soft-links if needed
 ```
 
-### Example command
-For example, to run the default pipeline on a draft assembly `draft-assembly.fa` with the reads `reads.fa.gz` and a genome size of `gsize`:
-```
-longstitch run draft=draft-assembly reads=reads G=gsize
-```
 
 Note that specifying `G` is required when `span=auto` for Tigmint-long.
 
