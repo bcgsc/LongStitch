@@ -30,6 +30,7 @@ longstitch run draft=draft-assembly reads=reads G=gsize
 ```
 Note that specifying `G` is required when `span=auto` for Tigmint-long.
 
+The output scaffolds can be found in soft-links with the suffix `longstitch-scaffolds.fa`
 
 ### Full help page
 To run the LongStitch pipeline, you can use the Makefile driver script `longstitch`.
