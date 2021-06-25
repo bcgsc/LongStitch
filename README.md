@@ -4,7 +4,7 @@ A genome assembly correction and scaffolding pipeline using long reads, consisti
 * [ntLink](https://github.com/bcgsc/ntLink) is then used to scaffold the corrected assembly
 * followed by [ARKS](https://github.com/bcgsc/arcs) for further scaffolding (optional extra step of scaffolding)
 
-<img src="https://github.com/bcgsc/LongStitch/blob/master/LongStitch_overview.png" width="480">
+<img src="https://github.com/bcgsc/LongStitch/blob/master/LongStitch_overview.pdf" width="480">
 
 ### Credits
 LongStitch was developed and designed by Lauren Coombe, Janet Li, Theodora Lo and Rene Warren.
