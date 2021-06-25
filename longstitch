@@ -158,7 +158,8 @@ $(draft).cut$(cut).tigmint.fa: $(draft).fa $(long_reads)
 	$(longstitch_time) tigmint-make tigmint-long draft=$(draft) reads=$(reads) cut=$(cut) t=$t G=$G span=$(span) dist=$(dist)
 
 # Run ntLink
-ntLink-with-tigmint: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa
+ntLink-with-tigmint: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa \
+	$(draft).tigmint-ntLink.longstitch-scaffolds.fa
 ntLink-arcs: ntLink arcs-with-ntLink
 ntLink-arks: ntLink arks-with-ntLink
 ntLink: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa
@@ -168,6 +169,9 @@ ntLink: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa
 
 $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa: $(draft).fa $(long_reads)
 	$(longstitch_time) ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n conservative=$(conservative)
+
+$(draft).tigmint-ntLink.longstitch-scaffolds.fa: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa
+	ln -sf $< $@
 
 # Run arcs-long
 arcs-with-ntLink: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
@@ -187,9 +191,9 @@ arcs-with-tigmint-ntLink: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.sti
 arks-with-ntLink: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 arks-with-tigmint: $(draft).cut$(cut).tigmint_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 arks-with-tigmint-ntLink: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa \
-			$(draft).longstitch.fa
+			$(draft).tigmint-ntLink-arks.longstitch-scaffolds.fa
 
-$(draft).longstitch.fa: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+$(draft).tigmint-ntLink-arks.longstitch-scaffolds.fa: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 	ln -sf $< $@
 
 %.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: %.stitch.abyss-scaffold.fa $(long_reads)
