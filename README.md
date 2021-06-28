@@ -16,10 +16,10 @@ Coombe L, Li JX, Lo T, Wong J, Nikolic V, Warren RL and Birol I. LongStitch: Hig
 
 
 ### Dependencies
-* [Tigmint](https://github.com/bcgsc/tigmint) v1.2.3+
+* [Tigmint](https://github.com/bcgsc/tigmint) v1.2.4+
 * [ntLink](https://github.com/bcgsc/ntLink) v1.0.0+
 * [ARCS/ARKS](https://github.com/bcgsc/arcs) v1.2.2+
-* [ABySS](https://github.com/bcgsc/abyss) v2.0.0+
+* [ABySS](https://github.com/bcgsc/abyss) v2.3.0+
 * [LINKS](https://github.com/bcgsc/links) v1.8.5+
 * [samtools](http://www.htslib.org/)
 
