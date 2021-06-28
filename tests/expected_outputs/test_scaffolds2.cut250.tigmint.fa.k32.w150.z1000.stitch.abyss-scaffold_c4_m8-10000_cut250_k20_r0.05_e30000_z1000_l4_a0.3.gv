@@ -1,0 +1,8 @@
+graph LINKS{
+	label="LINKS [v1.8.7] test_scaffolds2.cut250.tigmint.fa.k32.w150.z1000.stitch.abyss-scaffold_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3 Fri Jun 25 15:20:20 PDT 2021;"
+	rankdir=LR;
+	node [shape = circle];
+	3 [style=filled, fillcolor=deepskyblue, color=deepskyblue]
+	4 [style=filled, fillcolor=deepskyblue, color=deepskyblue]
+	3 -- 4 [ label = "3_57.9kb - 4_164.7kb l=7 g=100 type=10", penwidth=2.0, color=deepskyblue ]
+}
