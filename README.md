@@ -32,6 +32,15 @@ Note that specifying `G` is required when `span=auto` for Tigmint-long.
 
 The output scaffolds can be found in soft-links with the suffix `longstitch-scaffolds.fa`
 
+### LongStitch demo
+To test your LongStitch installation and see examples of how to run the pipeline, see `tests/run_longstitch_demo.sh`
+
+To run the demo script, ensure all dependencies are in your PATH, and run the bash script:
+```
+cd tests
+./run_longstitch_demo.sh
+```
+
 ### Full help page
 To run the LongStitch pipeline, you can use the Makefile driver script `longstitch`.
 ```
