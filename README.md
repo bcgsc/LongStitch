@@ -16,12 +16,26 @@ Coombe L, Li JX, Lo T, Wong J, Nikolic V, Warren RL and Birol I. LongStitch: Hig
 
 
 ### Dependencies
+* GNU Make
 * [Tigmint](https://github.com/bcgsc/tigmint) v1.2.4+
 * [ntLink](https://github.com/bcgsc/ntLink) v1.0.0+
 * [ARCS/ARKS](https://github.com/bcgsc/arcs) v1.2.2+
 * [ABySS](https://github.com/bcgsc/abyss) v2.3.0+
 * [LINKS](https://github.com/bcgsc/links) v1.8.5+
 * [samtools](http://www.htslib.org/)
+
+All dependencies for LongStitch are available in conda and homebrew.
+
+_Installing dependencies with conda:_
+```
+conda install -c bioconda tigmint ntlink arcs samtools
+```
+
+_Installing dependencies with homebrew:_
+```
+brew tap brewsci/bio
+brew install tigmint ntlink arcs
+```
 
 ### Example command
 For example, to run the default pipeline on a draft assembly `draft-assembly.fa` with the reads `reads.fa.gz` and a genome size of `gsize`:
