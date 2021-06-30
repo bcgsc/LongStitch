@@ -14,8 +14,25 @@ If you use LongStitch in your research, please cite:
 
 Coombe L, Li JX, Lo T, Wong J, Nikolic V, Warren RL and Birol I. LongStitch: High-quality genome assembly correction and scaffolding using long reads. bioRxiv. 2021;2021.06.17.448848. doi: https://doi.org/10.1101/2021.06.17.448848.
 
+### Installing LongStitch
 
-### Dependencies
+LongStitch is available from conda:
+```
+conda install -c bioconda longstitch
+```
+
+All dependencies for LongStitch are also available from homebrew:
+```
+brew tap brewsci/bio
+brew install tigmint ntlink arcs
+```
+
+Alternatively, use the latest release tarball:
+```
+wget https://github.com/bcgsc/LongStitch/releases/download/v1.0.1/longstitch-1.0.1.tar.gz
+```
+
+#### Dependencies
 * GNU Make
 * [Tigmint](https://github.com/bcgsc/tigmint) v1.2.4+
 * [ntLink](https://github.com/bcgsc/ntLink) v1.0.0+
@@ -24,18 +41,6 @@ Coombe L, Li JX, Lo T, Wong J, Nikolic V, Warren RL and Birol I. LongStitch: Hig
 * [LINKS](https://github.com/bcgsc/links) v1.8.5+
 * [samtools](http://www.htslib.org/)
 
-All dependencies for LongStitch are available in conda and homebrew.
-
-_Installing dependencies with conda:_
-```
-conda install -c bioconda tigmint ntlink arcs samtools
-```
-
-_Installing dependencies with homebrew:_
-```
-brew tap brewsci/bio
-brew install tigmint ntlink arcs
-```
 
 ### Example command
 For example, to run the default pipeline on a draft assembly `draft-assembly.fa` with the reads `reads.fa.gz` and a genome size of `gsize`:
