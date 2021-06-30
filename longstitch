@@ -1,7 +1,7 @@
 #!/usr/bin/make -rRf
 
 # LongStitch: genome assembly correction and scaffolding pipeline using long reads
-# Version v1.0.0
+# Version v1.0.1
 
 # Input files
 draft=draft
@@ -89,7 +89,7 @@ bin=$(shell dirname `command -v $(MAKEFILE_LIST)`)
 
 # Help
 help:
-	@echo "LongStitch v1.0.0"
+	@echo "LongStitch v1.0.1"
 	@echo ""
 	@echo "Usage: ./longstitch [COMMAND] [OPTION=VALUE]…"
 	@echo ""
@@ -139,7 +139,7 @@ clean:
 	@echo "Clean Done"
 
 version:
-	@echo "LongStitch v1.0.0"
+	@echo "LongStitch v1.0.1"
 	@echo "Written by Lauren Coombe, Janet Li and Theodora Lo"
 
 # Run tigmint-long
