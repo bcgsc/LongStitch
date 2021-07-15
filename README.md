@@ -1,5 +1,3 @@
-![Logo](https://github.com/bcgsc/LongStitch/blob/master/longstitch-logo.png)
-
 # LongStitch
 A genome assembly correction and scaffolding pipeline using long reads, consisting of up to three steps:
 * [Tigmint](https://github.com/bcgsc/tigmint) cuts the draft assembly at potentially misassembled regions
