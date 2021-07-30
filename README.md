@@ -49,7 +49,7 @@ For example, to run the default pipeline on a draft assembly `draft-assembly.fa`
 ```
 longstitch run draft=draft-assembly reads=reads G=gsize
 ```
-Note that specifying `G` is required when `span=auto` for Tigmint-long.
+Note that specifying `G` is required when `span=auto` for Tigmint-long, and that all input sequences files should be in single-line fasta/fastq format.
 
 The output scaffolds can be found in soft-links with the suffix `longstitch-scaffolds.fa`
 
