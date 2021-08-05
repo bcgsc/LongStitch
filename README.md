@@ -107,16 +107,18 @@ Notes:
 
 ## Tips for running LongStitch
 ### Optimizing k/w for ntLink step
-* The default k and w values for ntLink work generally well, but depending on your input data, you may get better results from tuning these parameters 
-* Generally, we suggest k-mer sizes (k) around 24-40 and window sizes (w) in the 100-500 range
+* The default k and w values for ntLink generally work well, but (depending on your input data) you may get better results by tuning these parameters 
+* Generally, we suggest setting the k-mer and window size to values in these approximate ranges:
+  * `k_ntLink` (k-mer size): 24-40
+  * `w` (window size): 100-500	
 * These values can be optimized using a grid search
-  * For example, using k-mer sizes 24, 32, 40 and window sizes 100, 250, 500, and trying all combinations
+  * For example, trying all combinations of k-mer sizes 24, 32, 40 and window sizes 100, 250, 500
 
 ### Running the default pipeline or including ARKS-long
-* The default LongStitch pipeline consists of Tigmint-long + ntLink, but you can also run an additional scaffolding step using ARKS-long by specifying `tigmint-ntLink-arks` as the target in your command
+* The default LongStitch pipeline consists of Tigmint-long + ntLink, but you can also run an additional scaffolding step with ARKS-long by specifying `tigmint-ntLink-arks` as the target in your command
 * Different results from these steps are expected for different input data
   * Some datasets will show more gains with the additional scaffolding step than others
-* Generally, if you want to be more conservative in terms of minimizing misassemblies and obtaining results faster, the default pipeline (`run`, Tigmint-long + ntLink) is recoomended. However, if you want to maximize scaffolding and contiguity, running the additional ARKS-long step (`tigmint-ntLink-arks`) is usually valuable
+* Generally, if you want to be more conservative in terms of minimizing misassemblies and faster runtimes, the default pipeline (`run`, Tigmint-long + ntLink) is recommended. However, if you want to maximize scaffolding and contiguity, running the additional ARKS-long step (`tigmint-ntLink-arks`) is often valuable
 * See the [LongStitch paper](https://doi.org/10.1101/2021.06.17.448848) for more details and examples
 
 ## License
