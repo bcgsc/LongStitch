@@ -1,14 +1,24 @@
 # See https://docs.microsoft.com/azure/devops/pipelines/languages/python
 
 jobs:
-- job: Test
+- job:
+  displayName: ubuntu-16.04
   pool:
-    vmImage: Ubuntu 16.04
+    vmImage: 'ubuntu-16.04'
+
   steps:
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: "3.7"
-      architecture: x64
+  - script: echo "##vso[task.prependpath]$CONDA/bin"
+    displayName: Add conda to PATH
+
+  - script: conda create --yes --quiet --name ntjoin_CI
+    displayName: Create Anaconda environment
+
+  - script: |
+      source activate longstitch_ci
+      conda install --yes --quiet --name longstitch_ci python
+      conda install --yes --quiet --name longstitch_ci -c conda-forge -c bioconda tigmint ntlink arcs pandas pytest
+    displayName: Install Anaconda packages
+
   - script: |
       curl https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
       sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-11 main"
@@ -17,6 +27,12 @@ jobs:
       sudo ln -s clang-format-11 /usr/bin/clang-format
       sudo ln -s clang-tidy-11 /usr/bin/clang-tidy
     displayName: Install clang-format and clang-tidy
+
   - script: |
       ./longstitch
     displayName: Test makefile help page
+
+  - script: |
+      cd tests
+      pytest longstitch_tests.py
+    displayName: Run pytests
