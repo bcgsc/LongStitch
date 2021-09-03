@@ -10,7 +10,7 @@ jobs:
   - script: echo "##vso[task.prependpath]$CONDA/bin"
     displayName: Add conda to PATH
 
-  - script: conda create --yes --quiet --name ntjoin_CI
+  - script: conda create --yes --quiet --name longstitch_ci
     displayName: Create Anaconda environment
 
   - script: |
