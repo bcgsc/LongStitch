@@ -13,7 +13,7 @@ def launch_longstitch(cmd):
 
 def run_longstitch(target, draft, reads, genome_size, k=32, window=1000):
     " Run LongStitch with specified parameters"
-    cmd = "longstitch -B {target} draft={draft} reads={reads} G={G} " \
+    cmd = "../longstitch -B {target} draft={draft} reads={reads} G={G} " \
           "k_ntLink={k} w={w}".format(target=target, draft=draft,
                                       reads=reads, k=k, w=window,
                                       G=genome_size)
