@@ -16,7 +16,7 @@ jobs:
   - script: |
       source activate longstitch_ci
       conda install --yes --quiet --name longstitch_ci python
-      conda install --yes --quiet --name longstitch_ci -c conda-forge -c bioconda tigmint ntlink arcs pandas pytest
+      conda install --yes --quiet --name longstitch_ci -c conda-forge -c bioconda tigmint ntlink arcs pandas pytest samtools
     displayName: Install Anaconda packages
 
   - script: |
