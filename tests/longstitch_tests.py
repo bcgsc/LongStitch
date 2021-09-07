@@ -11,7 +11,7 @@ def launch_longstitch(cmd):
     assert return_code == 0
 
 
-def run_longstitch(target, draft, reads, genome_size, k=32, window=1000):
+def run_longstitch(target, draft, reads, genome_size, k=32, window=100):
     " Run LongStitch with specified parameters"
     cmd = "../longstitch -B {target} draft={draft} reads={reads} G={G} " \
           "k_ntLink={k} w={w}".format(target=target, draft=draft,
@@ -23,7 +23,6 @@ def run_abyssfac(scaffolds):
     "Run abyss-fac on scaffolds"
     cmd = "abyss-fac {}".format(scaffolds)
     cmd_shlex = shlex.split(cmd)
-    subprocess.call("ls")
     with open(scaffolds + ".abyssfac.tsv", 'w') as outfile:
         return_code = subprocess.call(cmd_shlex, stdout=outfile)
     assert return_code == 0
