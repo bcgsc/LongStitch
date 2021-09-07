@@ -26,5 +26,5 @@ jobs:
   - script: |
       source activate longstitch_ci
       cd tests
-      pytest longstitch_tests.py
+      pytest -vs longstitch_tests.py
     displayName: Run pytests
