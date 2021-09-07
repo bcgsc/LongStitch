@@ -23,6 +23,7 @@ def run_abyssfac(scaffolds):
     "Run abyss-fac on scaffolds"
     cmd = "abyss-fac {}".format(scaffolds)
     cmd_shlex = shlex.split(cmd)
+    subprocess.call("ls")
     with open(scaffolds + ".abyssfac.tsv", 'w') as outfile:
         return_code = subprocess.call(cmd_shlex, stdout=outfile)
     assert return_code == 0
