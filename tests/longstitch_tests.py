@@ -1,4 +1,4 @@
-"""Tests for ntJoin"""
+"""Tests for LongStitch"""
 
 import shlex
 import subprocess
