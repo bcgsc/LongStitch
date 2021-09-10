@@ -107,7 +107,7 @@ Notes:
 
 ## Tips for running LongStitch
 ### Optimizing k/w for ntLink step
-* The default k and w values for ntLink generally work well, but (depending on your input data) you may get better results by tuning these parameters 
+* The default k (`k_ntLink`) and w (`w`) values for ntLink generally work well, but (depending on your input data) you may get better results by tuning these parameters 
 * Generally, we suggest setting the k-mer and window size to values in these approximate ranges:
   * `k_ntLink` (k-mer size): 24-40
   * `w` (window size): 100-500	
