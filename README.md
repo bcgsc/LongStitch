@@ -20,7 +20,7 @@ Coombe L, Li JX, Lo T, Wong J, Nikolic V, Warren RL and Birol I. LongStitch: Hig
 
 LongStitch is available from conda:
 ```
-conda install -c bioconda longstitch
+conda install -c bioconda -c conda-forge longstitch
 ```
 
 All dependencies for LongStitch are also available from homebrew:
