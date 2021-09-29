@@ -83,7 +83,7 @@ bin=$(shell dirname `command -v $(MAKEFILE_LIST)`)
 .PHONY: help run version clean tigmint ntLink tigmint-ntLink ntLink-with-tigmint tigmint-arcs tigmint-arks \
 		arcs-with-tigmint arks-with-tigmint ntLink-arcs ntLink-arks arcs-with-ntLink arks-with-ntLink \
 		tigmint-ntLink-arcs tigmint-ntLink-arks arcs-with-tigmint-ntLink arks-with-tigmint-ntLink \
-		check_ref longstitch_quast
+		check_ref longstitch_quast longstitch_run_quast
 .DELETE_ON_ERROR:
 .SECONDARY:
 
@@ -234,8 +234,10 @@ endif
 longstitch_quast: arks-with-tigmint-ntLink check_ref \
 			quast_longstitch-z$z_ntLink-k$(k_ntLink)-w$w_arks-long
 
+longstitch_run_quast: run check_ref
+
 ntLink_quast: ntLink check_ref \
-			quast_ntLink-z$z_ntLink-k$(k_ntLink)-w$w
+			quast_longstitch-z$z_ntLink-k$(k_ntLink)-w$w
 
 check_ref:
 ifeq ($(ref), None)
@@ -248,6 +250,12 @@ quast_longstitch-z$z_ntLink-k$(k_ntLink)-w$w_arks-long: arks-with-tigmint-ntLink
 		$(draft).cut$(cut).tigmint.fa \
 		$(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa \
 		$(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
+
+quast_longstitch-z$z_ntLink-k$(k_ntLink)-w$w: run
+	quast -t $(quast_t) -o $@ -r $(ref) --fast --scaffold-gap-max-size 100000  --large \
+		$(draft).fa  \
+		$(draft).cut$(cut).tigmint.fa \
+		$(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa
 
 quast_ntLink-z$z_ntLink-k$(k_ntLink)-w$w: ntLink
 	quast -t $(quast_t) -o $@ -r $(ref) --fast --scaffold-gap-max-size 100000  --large \
