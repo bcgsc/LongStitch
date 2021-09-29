@@ -234,10 +234,11 @@ endif
 longstitch_quast: arks-with-tigmint-ntLink check_ref \
 			quast_longstitch-z$z_ntLink-k$(k_ntLink)-w$w_arks-long
 
-longstitch_run_quast: run check_ref
+longstitch_run_quast: run check_ref \
+			quast_longstitch-z$z_ntLink-k$(k_ntLink)-w$w
 
 ntLink_quast: ntLink check_ref \
-			quast_longstitch-z$z_ntLink-k$(k_ntLink)-w$w
+			quast_ntLink-z$z_ntLink-k$(k_ntLink)-w$w
 
 check_ref:
 ifeq ($(ref), None)
