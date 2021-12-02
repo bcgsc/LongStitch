@@ -121,6 +121,11 @@ Notes:
 * Generally, if you want to be more conservative in terms of minimizing misassemblies and faster runtimes, the default pipeline (`run`, Tigmint-long + ntLink) is recommended. However, if you want to maximize scaffolding and contiguity, running the additional ARKS-long step (`tigmint-ntLink-arks`) is often valuable
 * See the [LongStitch paper](https://doi.org/10.1101/2021.06.17.448848) for more details and examples
 
+### Changing parameters for minimap2
+* `minimap2` is used for mapping reads in the Tigmint step
+* To change the (`-x`) preset used for mapping, specify `longmap=<mode>`
+  * For example, to use the nanopore mapping preset, use `longmap=ont` (default), or for PacBio use `longmap=pb`
+
 ## License
 LongStitch Copyright (c) 2020 British Columbia Cancer Agency Branch. All rights reserved.
 
