@@ -15,7 +15,7 @@ jobs:
 
   - script: |
       source activate longstitch_ci
-      conda update conda
+      conda update --yes --quiet --name longstitch_ci conda
       conda install --yes --quiet --name longstitch_ci python
       conda install --yes --quiet --name longstitch_ci -c conda-forge -c bioconda tigmint ntlink arcs pandas pytest samtools links
     displayName: Install Anaconda packages
