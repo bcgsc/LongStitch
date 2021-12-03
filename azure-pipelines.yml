@@ -14,7 +14,7 @@ jobs:
     displayName: Create Anaconda environment
 
   - script: |
-      conda install --yes --quiet conda==4.11.0
+      conda install --yes --quiet -c conda-forge conda==4.11.0
       conda --version
       source activate longstitch_ci
       conda --version
