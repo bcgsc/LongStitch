@@ -15,7 +15,6 @@ jobs:
 
   - script: |
       conda install --yes --quiet -c conda-forge conda==4.11.0
-      conda --version
       source activate longstitch_ci
       conda --version
       conda install --yes --quiet --name longstitch_ci -c conda-forge -c bioconda tigmint ntlink arcs pandas pytest samtools links==1.8.7
