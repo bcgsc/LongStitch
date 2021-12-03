@@ -40,7 +40,7 @@ wget https://github.com/bcgsc/LongStitch/releases/download/v1.0.1/longstitch-1.0
 * [ntLink](https://github.com/bcgsc/ntLink) v1.0.0+
 * [ARCS/ARKS](https://github.com/bcgsc/arcs) v1.2.2+
 * [ABySS](https://github.com/bcgsc/abyss) v2.3.0+
-* [LINKS](https://github.com/bcgsc/links) v1.8.5+
+* [LINKS](https://github.com/bcgsc/links) v1.8.7 or lower
 * [samtools](http://www.htslib.org/)
 
 
