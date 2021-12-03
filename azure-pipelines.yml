@@ -14,9 +14,10 @@ jobs:
     displayName: Create Anaconda environment
 
   - script: |
+      conda install --yes --quiet -c conda-forge conda==4.11.0
       source activate longstitch_ci
-      conda install --yes --quiet --name longstitch_ci python
-      conda install --yes --quiet --name longstitch_ci -c conda-forge -c bioconda tigmint ntlink arcs pandas pytest samtools links
+      conda --version
+      conda install --yes --quiet --name longstitch_ci -c conda-forge -c bioconda tigmint ntlink arcs pandas pytest samtools links==1.8.7
     displayName: Install Anaconda packages
 
   - script: |
