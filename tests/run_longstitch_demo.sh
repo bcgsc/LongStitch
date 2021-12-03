@@ -9,7 +9,7 @@ echo "Running first test - default LongStitch steps..."
 longstitch -B run draft=test_scaffolds1 reads=test_reads1 G=482700 k_ntLink=24 
 
 echo "Running second test - with optional arks-long step..."
-longstitch -B tigmint-ntLink-arks draft=test_scaffolds2 reads=test_reads2 G=250000 w=150 
+longstitch  tigmint-ntLink-arks draft=test_scaffolds2 reads=test_reads2 G=250000 w=150 
 
 set +x
 
