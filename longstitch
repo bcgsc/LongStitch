@@ -30,6 +30,7 @@ G=0
 k_ntLink=32
 w=100
 conservative=True
+a_ntLink=1
 
 # Default ARCS/ARKS+LINKS parameters
 s=70
@@ -162,10 +163,10 @@ ntLink-arks: ntLink arks-with-ntLink
 ntLink: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa
 
 %.tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa: %.tigmint.fa $(long_reads)
-	$(longstitch_time) ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n conservative=$(conservative)
+	$(longstitch_time) ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n a=$(a_ntLink) conservative=$(conservative)
 
 $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa: $(draft).fa $(long_reads)
-	$(longstitch_time) ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n conservative=$(conservative)
+	$(longstitch_time) ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n a=$(a_ntLink) conservative=$(conservative)
 
 $(draft).k$(k_ntLink).w$(w).tigmint-ntLink.longstitch-scaffolds.fa: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa 
 	ln -sf $< $@
