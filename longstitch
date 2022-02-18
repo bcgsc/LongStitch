@@ -52,6 +52,9 @@ D=true
 ref=None
 quast_t=48
 
+# Output prefix for final scaffolds file
+out_prefix=None
+
 # Use pigz or bgzip for parallel compression if available.
 ifneq ($(shell command -v pigz),)
 gzip=pigz -p$t
@@ -171,6 +174,9 @@ $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa: $(draft).fa $(long_re
 $(draft).k$(k_ntLink).w$(w).tigmint-ntLink.longstitch-scaffolds.fa: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold.fa 
 	ln -sf $< $@
 	echo "Done LongStitch steps Tigmint-long and ntLink! Scaffolds can be found in: $@"
+ifneq ($(out_prefix), None)
+	ln -sf $< $(out_prefix).scaffolds.fa
+endif
 
 # Run arcs-long
 arcs-with-ntLink: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_s$s_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
@@ -196,10 +202,16 @@ arks-with-tigmint-ntLink: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.sti
 $(draft).k$(k_ntLink).w$(w).tigmint-ntLink-arks.longstitch-scaffolds.fa: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 	ln -sf $< $@
 	echo "Done LongStitch steps Tigmint-long, ntLink and ARKS-long! Scaffolds can be found in: $@"
+ifneq ($(out_prefix), None)
+	ln -sf $< $(out_prefix).scaffolds.fa
+endif
 
 $(draft).k$(k_ntLink).w$(w).ntLink-arks.longstitch-scaffolds.fa: $(draft).fa.k$(k_ntLink).w$w.z$z.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa
 	ln -sf $< $@
 	echo "Done LongStitch steps ntLink and ARKS-long! Scaffolds can be found in: $@"
+ifneq ($(out_prefix), None)
+	ln -sf $< $(out_prefix).scaffolds.fa
+endif
 
 %.stitch.abyss-scaffold_c$c_m$m_cut$(cut)_k$(k_arks)_r$r_e$e_z$z_l$l_a$a.scaffolds.fa: %.stitch.abyss-scaffold.fa $(long_reads)
 	$(longstitch_time) arcs-make arks-long draft=$*.stitch.abyss-scaffold reads=$(reads) m=$m cut=$(cut) j=$j k=$(k_arks) l=$l c=$c a=$a D=$D z=$z
