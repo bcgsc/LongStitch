@@ -115,6 +115,7 @@ help:
 	@echo "	General options (optional):"
 	@echo "	t			number of threads [8]"
 	@echo "	z			minimum size of contig (bp) to scaffold [1000]"
+	@echo "	out_prefix		if supplied, final scaffolds will be soft-linked to <out_prefix>.scaffolds.fa"
 	@echo ""
 	@echo "	Tigmint options:"
 	@echo "	span			min number of spanning molecules to be considered correctly assembled [auto]"

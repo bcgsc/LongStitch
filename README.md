@@ -81,6 +81,7 @@ Usage: ./longstitch [COMMAND] [OPTION=VALUE]…
 	General options (optional):
 	t			number of threads [8]
 	z			minimum size of contig (bp) to scaffold [1000]
+	out_prefix              if supplied, final scaffolds will be soft-linked to <out_prefix>.scaffolds.fa
 
 	Tigmint options:
 	span			min number of spanning molecules to be considered correctly assembled [auto]
