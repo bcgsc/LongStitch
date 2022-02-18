@@ -6,6 +6,10 @@
 # Input files
 draft=draft
 reads=reads
+draft_path=draft_path
+draft_path_base=$(shell basename $(draft_path))
+reads_path=reads_path
+reads_path_base=$(shell basename $(reads_path))
 
 # Find the complete long read file name
 fastq=$(shell test -f $(reads).fq.gz && echo "true")
@@ -87,7 +91,7 @@ bin=$(shell dirname `command -v $(MAKEFILE_LIST)`)
 .PHONY: help run version clean tigmint ntLink tigmint-ntLink ntLink-with-tigmint tigmint-arcs tigmint-arks \
 		arcs-with-tigmint arks-with-tigmint ntLink-arcs ntLink-arks arcs-with-ntLink arks-with-ntLink \
 		tigmint-ntLink-arcs tigmint-ntLink-arks arcs-with-tigmint-ntLink arks-with-tigmint-ntLink \
-		check_ref longstitch_quast
+		check_ref longstitch_quast make_links
 .DELETE_ON_ERROR:
 .SECONDARY:
 
@@ -146,6 +150,21 @@ clean:
 version:
 	@echo "LongStitch v1.0.1"
 	@echo "Written by Lauren Coombe, Janet Li and Theodora Lo"
+
+# Make soft links for files
+make_links: $(draft_path_base) $(reads_path_base)
+
+$(draft_path_base): $(draft_path)
+ifeq ($(draft_path),draft_path)
+	$(error For make_links target, must set draft_path)
+endif
+	ln -s $(draft_path)
+
+$(reads_path_base): $(reads_path)
+ifeq ($(reads_path),reads_path)
+	$(error For make_links target, must set reads_path)
+endif
+	ln -s $(reads_path)
 
 # Run tigmint-long
 run: tigmint-ntLink
