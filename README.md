@@ -81,6 +81,7 @@ Usage: ./longstitch [COMMAND] [OPTION=VALUE]…
 	General options (optional):
 	t			number of threads [8]
 	z			minimum size of contig (bp) to scaffold [1000]
+	out_prefix              if supplied, final scaffolds will be soft-linked to <out_prefix>.scaffolds.fa
 
 	Tigmint options:
 	span			min number of spanning molecules to be considered correctly assembled [auto]
@@ -125,6 +126,11 @@ Notes:
 * `minimap2` is used for mapping reads in the Tigmint step
 * To change the (`-x`) preset used for mapping, specify `longmap=<mode>`
   * For example, to use the nanopore mapping preset, use `longmap=ont` (default), or for PacBio use `longmap=pb`
+  
+### Running LongStitch in pipelines
+* To change to a particular before running LongStitch, you can use the `-C dir` option with the `longstitch` command
+* All input files must be in the working directory for `longstitch` - these can either be created manually or using the `longstitch make_links` command
+  * This command only requires the parameters `reads_path` and `draft_path` to be set - _full_ paths to the reads file and draft fasta file, respectively
 
 ## License
 LongStitch Copyright (c) 2020 British Columbia Cancer Agency Branch. All rights reserved.
