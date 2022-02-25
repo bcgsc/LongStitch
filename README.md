@@ -31,7 +31,7 @@ brew install tigmint ntlink arcs
 
 Alternatively, use the latest release tarball:
 ```
-wget https://github.com/bcgsc/LongStitch/releases/download/v1.0.1/longstitch-1.0.1.tar.gz
+wget https://github.com/bcgsc/LongStitch/releases/download/v1.0.2/longstitch-1.0.2.tar.gz
 ```
 
 #### Dependencies
