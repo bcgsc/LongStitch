@@ -188,10 +188,18 @@ ntLink-arks: ntLink arks-with-ntLink
 ntLink: $(draft).fa.k$(k_ntLink).w$w.z$z.ntLink.scaffolds.fa
 
 %.tigmint.fa.k$(k_ntLink).w$w.z$z.ntLink.scaffolds.fa: %.tigmint.fa $(long_reads)
+ifeq ($(gap_fill), True)
+	$(longstitch_time) ntLink scaffold gap_fill target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n a=$(a_ntLink) conservative=$(conservative)
+else
 	$(longstitch_time) ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n a=$(a_ntLink) conservative=$(conservative)
+endif
 
 $(draft).fa.k$(k_ntLink).w$w.z$z.ntLink.scaffolds.fa: $(draft).fa $(long_reads)
+ifeq ($(gap_fill), True)
+	$(longstitch_time) ntLink scaffold gap_fill target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n a=$(a_ntLink) conservative=$(conservative)
+else
 	$(longstitch_time) ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n a=$(a_ntLink) conservative=$(conservative)
+endif
 
 $(draft).k$(k_ntLink).w$(w).tigmint-ntLink.longstitch-scaffolds.fa: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.ntLink.scaffolds.fa 
 	ln -sf $< $@
