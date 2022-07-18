@@ -36,6 +36,7 @@ w=100
 conservative=True
 a_ntLink=1
 gap_fill=False
+rounds=1
 
 # Default ARCS/ARKS+LINKS parameters
 s=70
@@ -130,7 +131,8 @@ help:
 	@echo "	ntLink options:"
 	@echo "	k_ntLink		k-mer size for minimizers [32]"
 	@echo "	w			window size for minimizers [100]"
-	@echo " gap_fill    use gap-filling feature [False]"
+	@echo "	gap_fill	        use gap-filling feature [False]"
+	@echo "	rounds			number of ntLink rounds [1]"
 	@echo ""
 	@echo "	ARCS+LINKS options:"
 	@echo "	j			minimum fraction of read kmers matching a contigId (used in kmer mode) [0.05]"
@@ -187,18 +189,34 @@ ntLink-arcs: ntLink arcs-with-ntLink
 ntLink-arks: ntLink arks-with-ntLink
 ntLink: $(draft).fa.k$(k_ntLink).w$w.z$z.ntLink.scaffolds.fa
 
-%.tigmint.fa.k$(k_ntLink).w$w.z$z.ntLink.scaffolds.fa: %.tigmint.fa $(long_reads)
+ntLink_targets=
+ifeq ($(rounds), 1)
+ntLink_targets+=scaffold
 ifeq ($(gap_fill), True)
-	$(longstitch_time) ntLink scaffold gap_fill target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n a=$(a_ntLink) conservative=$(conservative)
+ntLink_targets+=gap_fill
+endif
 else
-	$(longstitch_time) ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n a=$(a_ntLink) conservative=$(conservative)
+ifeq ($(gap_fill), True)
+ntLink_targets+=run_rounds_gaps
+else
+ntLink_targets+=run_rounds
+endif
+endif
+
+%.tigmint.fa.k$(k_ntLink).w$w.z$z.ntLink.scaffolds.fa: %.tigmint.fa $(long_reads)
+ifneq ($(rounds), 1)
+	$(longstitch_time) ntLink_rounds $(ntLink_targets) rounds=$(rounds) target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n a=$(a_ntLink) conservative=$(conservative)
+	ln -sf $*.tigmint.fa.k$(k_ntLink).w$w.z$z.ntLink.$(rounds)rounds.fa $@
+else
+	$(longstitch_time) ntLink $(ntLink_targets) target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n a=$(a_ntLink) conservative=$(conservative)
 endif
 
 $(draft).fa.k$(k_ntLink).w$w.z$z.ntLink.scaffolds.fa: $(draft).fa $(long_reads)
-ifeq ($(gap_fill), True)
-	$(longstitch_time) ntLink scaffold gap_fill target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n a=$(a_ntLink) conservative=$(conservative)
+ifneq ($(rounds), 1)
+	$(longstitch_time) ntLink_rounds $(ntLink_targets) rounds=$(rounds) target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n a=$(a_ntLink) conservative=$(conservative)
+	ln -sf $(draft).fa.k$(k_ntLink).w$w.z$z.ntLink.$(rounds)rounds.fa $@
 else
-	$(longstitch_time) ntLink scaffold target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n a=$(a_ntLink) conservative=$(conservative)
+	$(longstitch_time) ntLink $(ntLink_targets) target=$< reads="$(long_reads)" t=$t k=$(k_ntLink) w=$w z=$z n=$n a=$(a_ntLink) conservative=$(conservative)
 endif
 
 $(draft).k$(k_ntLink).w$(w).tigmint-ntLink.longstitch-scaffolds.fa: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.ntLink.scaffolds.fa 

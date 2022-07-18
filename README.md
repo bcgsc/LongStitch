@@ -37,7 +37,7 @@ wget https://github.com/bcgsc/LongStitch/releases/download/v1.0.2/longstitch-1.0
 #### Dependencies
 * GNU Make
 * [Tigmint](https://github.com/bcgsc/tigmint) v1.2.4+
-* [ntLink](https://github.com/bcgsc/ntLink) v1.0.0+
+* [ntLink](https://github.com/bcgsc/ntLink) v1.3.3+
 * [ARCS/ARKS](https://github.com/bcgsc/arcs) v1.2.2+
 * [ABySS](https://github.com/bcgsc/abyss) v2.3.0+
 * [LINKS](https://github.com/bcgsc/links) v1.8.7
@@ -91,6 +91,8 @@ Usage: ./longstitch [COMMAND] [OPTION=VALUE]…
 	ntLink options:
 	k_ntLink		k-mer size for minimizers [32]
 	w			window size for minimizers [100]
+	gap_fill	        use gap-filling feature [False]
+	rounds			number of ntLink rounds [1]
 
 	ARCS+LINKS options:
 	j			minimum fraction of read kmers matching a contigId (used in kmer mode) [0.05]
