@@ -1,0 +1,52 @@
+
+Running: /Users/lcoombe/Documents/GSC/homebrew/bin/LINKS [v1.8.7]
+-f test_scaffolds2.cut250.tigmint.fa.k24.w150.z1000.ntLink.scaffolds.renamed.fa
+-s empty.fof
+-m 
+-d 4000
+-k 15
+-e 0.1
+-l 4
+-a 0.3
+-t 2
+-o 0
+-z 1000
+-b test_scaffolds2.cut250.tigmint.fa.k24.w150.z1000.ntLink.scaffolds_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3
+-r 
+-p 0.001
+-x 0
+
+----------------- Verifying files -----------------
+
+Checking sequence target file test_scaffolds2.cut250.tigmint.fa.k24.w150.z1000.ntLink.scaffolds.renamed.fa...ok
+
+
+Scaffolding mid-point files:
+test_scaffolds2.cut250.tigmint.fa.k24.w150.z1000.ntLink.scaffolds_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.tigpair_checkpoint.tsv
+test_scaffolds2.cut250.tigmint.fa.k24.w150.z1000.ntLink.scaffolds_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.simplepair_checkpoint.tsv
+detected; LINKS will skip contig pairing and use info from files instead : Tue 19 Jul 2022 09:25:39 PDT
+
+Reading sequences from test_scaffolds2.cut250.tigmint.fa.k24.w150.z1000.ntLink.scaffolds.renamed.fa : Tue 19 Jul 2022 09:25:39 PDT
+
+done.
+Reading sequence pairs from test_scaffolds2.cut250.tigmint.fa.k24.w150.z1000.ntLink.scaffolds_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.tigpair_checkpoint.tsv : Tue 19 Jul 2022 09:25:39 PDT
+
+done.
+Building scaffolds : Tue 19 Jul 2022 09:25:39 PDT
+
+done.
+Building .gv graph : Tue 19 Jul 2022 09:25:39 PDT
+
+
+=>Scaffolding ended : Tue 19 Jul 2022 09:25:39 PDT
+Scaffolds layout in: test_scaffolds2.cut250.tigmint.fa.k24.w150.z1000.ntLink.scaffolds_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.scaffolds
+Scaffold graph in: test_scaffolds2.cut250.tigmint.fa.k24.w150.z1000.ntLink.scaffolds_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.gv
+
+
+=>Making FASTA file : Tue 19 Jul 2022 09:25:39 PDT
+Scaffolds FASTA in : test_scaffolds2.cut250.tigmint.fa.k24.w150.z1000.ntLink.scaffolds_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.scaffolds.fa
+
+
+=>Wrote correspondence file tracking LINKScontigID <=> OriginalContigNames : test_scaffolds2.cut250.tigmint.fa.k24.w150.z1000.ntLink.scaffolds_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3.assembly_correspondence.tsv
+
+Scaffolding executed normally Tue 19 Jul 2022 09:25:39 PDT

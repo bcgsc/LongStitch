@@ -9,13 +9,13 @@ echo "Running first test - default LongStitch steps..."
 longstitch -B run draft=test_scaffolds1 reads=test_reads1 G=482700 k_ntLink=24 
 
 echo "Running second test - with optional arks-long step..."
-longstitch  tigmint-ntLink-arks draft=test_scaffolds2 reads=test_reads2 G=250000 w=150 
+longstitch  tigmint-ntLink-arks draft=test_scaffolds2 reads=test_reads2 G=250000 w=150 k_ntLink=24 
 
 set +x
 
 echo ""
 echo "Done tests! Compare your generated files with the files in the expected_outputs folder to ensure the tests were successful."
-echo "Note: Files were generated using Tigmint v1.2.5, ntLink v1.1.3 and ARCS v1.2.3"
+echo "Note: Files were generated using Tigmint v1.2.5, ntLink v1.3.3 and ARCS v1.2.4"
 echo ""
 
 echo "Final scaffold files found in: test_scaffolds1.k24.w100.tigmint-ntLink.longstitch-scaffolds.fa test_scaffolds2.k32.w150.tigmint-ntLink-arks.longstitch-scaffolds.fa"

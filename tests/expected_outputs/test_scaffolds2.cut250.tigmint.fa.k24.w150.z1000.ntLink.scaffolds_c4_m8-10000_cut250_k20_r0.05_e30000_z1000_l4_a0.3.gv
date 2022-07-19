@@ -1,5 +1,5 @@
 graph LINKS{
-	label="LINKS [v1.8.7] test_scaffolds2.cut250.tigmint.fa.k32.w150.z1000.stitch.abyss-scaffold_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3 Mon 28 Mar 2022 08:48:57 PDT;"
+	label="LINKS [v1.8.7] test_scaffolds2.cut250.tigmint.fa.k24.w150.z1000.ntLink.scaffolds_c4_m8-10000_cut250_k20_r0.05_e30000_z1000_l4_a0.3 Tue 19 Jul 2022 09:25:39 PDT;"
 	rankdir=LR;
 	node [shape = circle];
 	3 [style=filled, fillcolor=deepskyblue, color=deepskyblue]
