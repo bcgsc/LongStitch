@@ -1,3 +1,7 @@
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/bcgsc/longstitch)
+[![Published in BMC Bioinformatics](https://img.shields.io/badge/Published%20in-BMC%20Bioinformatics-blue)](https://doi.org/10.1186/s12859-021-04451-7)
+![Conda](https://img.shields.io/conda/dn/bioconda/longstitch?label=Conda)
+
 ![Logo](https://github.com/bcgsc/longstitch/blob/master/longstitch-logo.png)
 
 # LongStitch
@@ -31,7 +35,7 @@ brew install tigmint ntlink arcs
 
 Alternatively, use the latest release tarball:
 ```
-wget https://github.com/bcgsc/LongStitch/releases/download/v1.0.2/longstitch-1.0.2.tar.gz
+wget https://github.com/bcgsc/LongStitch/releases/download/v1.0.3/longstitch-1.0.3.tar.gz
 ```
 
 #### Dependencies
