@@ -47,17 +47,17 @@ def test_default():
 
 def test_arks():
     "Testing additional ARKS-long step, specifying w"
-    target, draft, reads, G, w = "tigmint-ntLink-arks", "test_scaffolds2", "test_reads2", 250000, 150
-    run_longstitch(target, draft, reads, G, window=w)
+    target, draft, reads, G, w, k = "tigmint-ntLink-arks", "test_scaffolds2", "test_reads2", 250000, 150, 24
+    run_longstitch(target, draft, reads, G, window=w, k=k)
 
     scaffolds_filename = "{draft}.k{k}.w{w}.tigmint-ntLink.longstitch-scaffolds.fa".format(draft=draft,
-                                                                                           k=32, w=w)
+                                                                                           k=k, w=w)
     scaffolds_abyssfac_filename = scaffolds_filename + ".abyssfac.tsv"
     run_abyssfac(scaffolds_filename)
     check_stats(scaffolds_abyssfac_filename)
 
     scaffolds_filename = "{draft}.k{k}.w{w}.tigmint-ntLink-arks.longstitch-scaffolds.fa".format(draft=draft,
-                                                                                                k=32, w=w)
+                                                                                                k=k, w=w)
     scaffolds_abyssfac_filename = scaffolds_filename + ".abyssfac.tsv"
     run_abyssfac(scaffolds_filename)
     check_stats(scaffolds_abyssfac_filename)
