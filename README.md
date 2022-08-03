@@ -1,6 +1,6 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/bcgsc/longstitch)
 [![Published in BMC Bioinformatics](https://img.shields.io/badge/Published%20in-BMC%20Bioinformatics-blue)](https://doi.org/10.1186/s12859-021-04451-7)
-![Conda](https://img.shields.io/conda/dn/bioconda/longstitch?label=Conda)
+[![Conda](https://img.shields.io/conda/dn/bioconda/longstitch?label=Conda)](https://anaconda.org/bioconda/longstitch)
 
 ![Logo](https://github.com/bcgsc/longstitch/blob/master/longstitch-logo.png)
 
