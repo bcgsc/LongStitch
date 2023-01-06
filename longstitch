@@ -11,15 +11,44 @@ draft_path_base=$(shell basename $(draft_path))
 reads_path=reads_path
 reads_path_base=$(shell basename $(reads_path))
 
+
 # Find the complete long read file name
-fastq=$(shell test -f $(reads).fq.gz && echo "true")
-fasta=$(shell test -f $(reads).fa.gz && echo "true")
-ifeq ($(fastq), true)
+fastq_gz=$(shell test -f $(reads).fq.gz && echo "true")
+fastq=$(shell test -f $(reads).fq && echo "true")
+fastq_long=$(shell test -f $(reads).fastq && echo "true")
+fastq_gz_long=$(shell test -f $(reads).fastq.gz && echo "true")
+
+fasta_gz=$(shell test -f $(reads).fa.gz && echo "true")
+fasta=$(shell test -f $(reads).fa && echo "true")
+fasta_long=$(shell test -f $(reads).fasta && echo "true")
+fasta_gz_long=$(shell test -f $(reads).fasta.gz && echo "true")
+
+ifeq ($(fastq_gz), true)
 long_reads=$(reads).fq.gz
 endif
-ifeq ($(fasta), true)
+ifeq ($(fastq), true)
+long_reads=$(reads).fq
+endif
+ifeq ($(fastq_long), true)
+long_reads=$(reads).fastq
+endif
+ifeq ($(fastq_gz_long), true)
+long_reads=$(reads).fastq.gz
+endif
+
+ifeq ($(fasta_gz), true)
 long_reads=$(reads).fa.gz
 endif
+ifeq ($(fasta), true)
+long_reads=$(reads).fa
+endif
+ifeq ($(fasta_long), true)
+long_reads=$(reads).fasta
+endif
+ifeq ($(fasta_gz_long), true)
+long_reads=$(reads).fasta.gz
+endif
+
 
 # Common parameters
 z=1000
@@ -116,7 +145,8 @@ help:
 	@echo ""
 	@echo "	General options (required):"
 	@echo "	draft			draft name [draft]. File must have .fa extension"
-	@echo "	reads			read name [reads]. File must have .fq.gz or .fa.gz extension"
+	@echo "	reads			read name [reads]. The reads file can be uncompressed or gzipped."
+	@echo "				Accepted read file extensions: .fq, .fq.gz, .fastq, .fastq.gz, .fa, .fa.gz, .fasta, .fasta.gz"
 	@echo ""
 	@echo "	General options (optional):"
 	@echo "	t			number of threads [8]"
