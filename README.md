@@ -42,7 +42,7 @@ wget https://github.com/bcgsc/LongStitch/releases/download/v1.0.3/longstitch-1.0
 * GNU Make
 * [Tigmint](https://github.com/bcgsc/tigmint) v1.2.4+
 * [ntLink](https://github.com/bcgsc/ntLink) v1.3.3+
-* [ARCS/ARKS](https://github.com/bcgsc/arcs) v1.2.2+
+* [ARCS/ARKS](https://github.com/bcgsc/arcs) v1.2.5+
 * [ABySS](https://github.com/bcgsc/abyss) v2.3.0+
 * [LINKS](https://github.com/bcgsc/links) v1.8.7
 * [samtools](http://www.htslib.org/)
@@ -80,8 +80,8 @@ Usage: ./longstitch [COMMAND] [OPTION=VALUE]…
 
 	General options (required):
 	draft			draft name [draft]. File must have .fa extension
-	reads			read name [reads]. File must have .fq.gz or .fa.gz extension
-
+	reads			read name [reads]. The reads file can be uncompressed or gzipped.
+				Accepted read file extensions: .fq, .fq.gz, .fastq, .fastq.gz, .fa, .fa.gz, .fasta, .fasta.gz
 	General options (optional):
 	t			number of threads [8]
 	z			minimum size of contig (bp) to scaffold [1000]
