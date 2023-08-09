@@ -91,6 +91,7 @@ Usage: ./longstitch [COMMAND] [OPTION=VALUE]…
 	span			min number of spanning molecules to be considered correctly assembled [auto]
 	dist			maximum distance between alignments to be considered the same molecule [auto]
 	G			haploid genome size (bp) for calculating span parameter (e.g. '3e9' for human genome).  Required when span=auto [0]
+	longmap			long read technology - used for minimap2 preset. 'ont' for nanopore, 'pb' for pacbio, 'hifi' for pacbio HiFi reads [ont]
 
 	ntLink options:
 	k_ntLink		k-mer size for minimizers [32]
