@@ -58,6 +58,7 @@ t=8
 span=auto
 dist=auto
 G=0
+longmap=ont
 
 # Default ntLink parameters
 k_ntLink=32
@@ -157,6 +158,7 @@ help:
 	@echo "	span			min number of spanning molecules to be considered correctly assembled [auto]"
 	@echo "	dist			maximum distance between alignments to be considered the same molecule [auto]"
 	@echo "	G			haploid genome size (bp) for calculating span parameter (e.g. '3e9' for human genome). Required when span=auto [0]"
+	@echo "	longmap			long read technology - used for minimap2 preset. 'ont' for nanopore, 'pb' for pacbio, 'hifi' for pacbio HiFi reads [ont]"
 	@echo ""
 	@echo "	ntLink options:"
 	@echo "	k_ntLink		k-mer size for minimizers [32]"
@@ -210,7 +212,7 @@ tigmint-arks: tigmint arks-with-tigmint
 tigmint: $(draft).cut$(cut).tigmint.fa
 	
 $(draft).cut$(cut).tigmint.fa: $(draft).fa $(long_reads)
-	$(longstitch_time) tigmint-make tigmint-long draft=$(draft) reads=$(reads) cut=$(cut) t=$t G=$G span=$(span) dist=$(dist)
+	$(longstitch_time) tigmint-make tigmint-long draft=$(draft) reads=$(reads) cut=$(cut) t=$t G=$G span=$(span) dist=$(dist) longmap=$(longmap)
 
 # Run ntLink
 ntLink-with-tigmint: $(draft).cut$(cut).tigmint.fa.k$(k_ntLink).w$w.z$z.ntLink.scaffolds.fa \
